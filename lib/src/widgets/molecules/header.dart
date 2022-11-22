@@ -1,9 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../providers/auth_provider.dart';
-import '../atoms/button.dart';
+import 'package:sizer/sizer.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   const Header({
@@ -13,23 +9,25 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      actions: <Widget>[
-        Consumer<AuthProvider>(
-          builder: (_, value, __) {
-            if (!value.loggedIn) {
-              return const SizedBox.shrink();
-            }
-            return Button(
-              type: ButtonType.transparent,
-              child: Text(tr("Logout")),
-              trailingIcon: const Icon(Icons.directions_bus, size: 24),
-              textStyle: Theme.of(context).textTheme.subtitle1,
-              disableBorder: true,
-              onPressed: () {},
-            );
-          },
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.chevron_left,
+          color: Colors.black,
+          size: 20.sp,
         ),
-      ],
+      ),
+      title: Text(
+        "Profile",
+        style: TextStyle(
+          fontSize: 14.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+        
+      ),
     );
   }
 

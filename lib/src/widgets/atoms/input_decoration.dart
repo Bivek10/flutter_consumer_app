@@ -21,9 +21,9 @@ class CostumTextBorder {
         color: AppColors.black,
       ),
       focusColor: AppColors.black,
-      labelStyle: const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
+      labelStyle: TextStyle(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w500,
         fontStyle: FontStyle.normal,
         color: AppColors.black,
         letterSpacing: 0.7,
@@ -31,9 +31,12 @@ class CostumTextBorder {
       hintStyle: TextStyle(
         color: AppColors.black,
         fontSize: 12.sp,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w500,
       ),
-      errorStyle: const TextStyle(fontSize: 0, height: 0),
+      errorStyle: const TextStyle(
+        fontSize: 0,
+        height: 0,
+      ),
       errorText: null,
 
       focusedBorder: InputBorder.none,
@@ -44,10 +47,10 @@ class CostumTextBorder {
   }
 
   static TextStyle textfieldstyle = TextStyle(
-    fontSize: 14.sp,
+    fontSize: 13.sp,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     color: AppColors.black,
-    letterSpacing: 0.7,
+    
   );
 }

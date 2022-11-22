@@ -29,8 +29,8 @@ class CostumHeader extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 40,
-              left: 10,
+              top: 50,
+              left: 15,
               child: CircleAvatar(
                 radius: 25.sp,
                 backgroundColor: Colors.transparent,
@@ -40,10 +40,10 @@ class CostumHeader extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 120,
+              top: 130,
               left: 15,
               child: Text(
-                "Hey,\n Wel-come.",
+                "Hey,\nWel-come.",
                 style: TextStyle(
                   color: AppColors.black,
                   fontWeight: FontWeight.bold,

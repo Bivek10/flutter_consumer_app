@@ -44,7 +44,7 @@ class App extends StatelessWidget {
             navigatorKey: mainNavigator,
             title: tr("Skeleton"),
             theme: AppTheme.light,
-            initialRoute: RouteName.loginpage,
+            initialRoute: RouteName.mainPage,
             onGenerateRoute: AppRouter.onGenerateRoutes,
             // initialRoute:
             //     context.watch<OnboardingProvider>().shouldShowOnboardingPage

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_skeleton/src/pages/demo.dart';
 
+import '../../pages/demo.dart';
+import '../../pages/home_page.dart';
 import '../../pages/login_page.dart';
+import '../../pages/main_page.dart';
+import '../../pages/profile.dart';
 import 'routesname.dart';
 
 class AppRouter {
@@ -25,6 +28,9 @@ class AppRouter {
   */
 
     switch (settings.name) {
+      case RouteName.mainPage:
+        return _materialRoute(const MainPage());
+
       case RouteName.loginpage:
         EntryType type =
             settings.arguments == null ? EntryType.login : EntryType.register;
@@ -34,6 +40,10 @@ class AppRouter {
             entryType: type,
           ),
         );
+      case RouteName.homepage:
+        return _materialRoute(const HomePage());
+      case RouteName.profile:
+        return _materialRoute(const Profile());
       case 'about':
         final DemoScreenArguments args =
             settings.arguments as DemoScreenArguments;

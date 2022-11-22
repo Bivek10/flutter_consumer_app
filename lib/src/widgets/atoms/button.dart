@@ -31,25 +31,28 @@ class Button extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color? splashColor;
   final Color? highlightColor;
+  //update boolvalue;
+  final bool loader;
 
-  Button({
-    Key? key,
-    required this.onPressed,
-    required this.child,
-    this.type = ButtonType.filled,
-    this.size = ButtonSize.large,
-    this.padding,
-    this.disabled = false,
-    this.textStyle,
-    this.leadingIcon,
-    this.trailingIcon,
-    this.disableBorder = false,
-    this.fillColor,
-    this.direction = Axis.horizontal,
-    this.borderRadius,
-    this.splashColor,
-    this.highlightColor,
-  }) : super(key: key);
+  Button(
+      {Key? key,
+      required this.onPressed,
+      required this.child,
+      this.type = ButtonType.filled,
+      this.size = ButtonSize.large,
+      this.padding,
+      this.disabled = false,
+      this.textStyle,
+      this.leadingIcon,
+      this.trailingIcon,
+      this.disableBorder = false,
+      this.fillColor,
+      this.direction = Axis.horizontal,
+      this.borderRadius,
+      this.splashColor,
+      this.highlightColor,
+      required this.loader})
+      : super(key: key);
 
   final Map<ButtonSize, double> sizeValue = {
     ButtonSize.small: 8,
@@ -115,6 +118,22 @@ class Button extends StatelessWidget {
           child,
           ...(trailingIcon != null
               ? [const SizedBox(width: 8), trailingIcon!]
+              : []),
+          ...(loader
+              ? [
+                  const SizedBox(
+                    height: 20,
+                    width: 27,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: CircularProgressIndicator(
+                        backgroundColor: Color.fromARGB(255, 188, 71, 255),
+                        strokeWidth: 2.0,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      ),
+                    ),
+                  ),
+                ]
               : []),
         ],
       ),

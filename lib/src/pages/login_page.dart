@@ -8,6 +8,7 @@ import '../widgets/atoms/button.dart';
 import '../widgets/atoms/input_decoration.dart';
 import '../widgets/atoms/text_form_error.dart';
 import '../widgets/molecules/costume_header.dart';
+import 'home_page.dart';
 
 enum EntryType {
   login,
@@ -15,7 +16,7 @@ enum EntryType {
 }
 
 class LoginPage extends StatefulWidget {
-  static const pageUrl = "/";
+  static const pageUrl = "/Login";
 
   final EntryType entryType;
   const LoginPage({
@@ -37,6 +38,11 @@ class _LoginPageState extends State<LoginPage> {
   ValueNotifier<bool> showpassword = ValueNotifier(true);
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
@@ -49,6 +55,9 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const CostumHeader(),
+              const SizedBox(
+                height: 5,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Material(
@@ -155,28 +164,26 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Material(
                   //shadowColor: Colors.grey.shade200,
+                  shadowColor: Colors.transparent,
                   elevation: 1.0,
                   borderRadius: BorderRadius.circular(10),
                   child: Consumer<EmailAuthentication>(
                     builder: (BuildContext context, value, Widget? child) {
-                      //print("value output ${value.getuserCredential}");
-                      if (value.errorMessage.isNotEmpty) {}
-                      if (value.authenticationState == AuthState.loading) {
-                        print("loading");
-                      }
-                      if (value.authenticationState == AuthState.loaded) {
-                        print("loaded");
-                      }
                       return Button(
+                        //start loading,
+                        loader: value.authenticationState == AuthState.loading,
                         fillColor: Colors.orangeAccent,
                         size: ButtonSize.medium,
                         onPressed: () {
-                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (value.authenticationState != AuthState.loading) {
+                            FocusScopeNode currentFocus =
+                                FocusScope.of(context);
 
-                          if (!currentFocus.hasPrimaryFocus) {
-                            currentFocus.unfocus();
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            validdateLoginForm();
                           }
-                          validdateLoginForm();
                         },
                         child: widget.entryType == EntryType.login
                             ? const Text("Login")
@@ -203,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: widget.entryType == EntryType.login
                         ? Text(
-                            "Create new account?",
+                            "New user? Create account",
                             style: TextStyle(
                               fontSize: 14.sp,
                               color: AppColors.black,
@@ -243,13 +250,11 @@ class _LoginPageState extends State<LoginPage> {
         "password": passwordController.text.trim(),
       };
       if (widget.entryType == EntryType.login) {
-        //loged in
         Provider.of<EmailAuthentication>(context, listen: false)
             .signIn(credential: loginData);
       } else {
         Provider.of<EmailAuthentication>(context, listen: false)
             .signUp(credential: loginData);
-        //signed in
       }
     }
   }

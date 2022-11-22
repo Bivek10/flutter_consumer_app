@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
+import 'package:flutter/material.dart';
 
 import '../config/firebase/auth.dart';
 import '../core/utils/snack_bar.dart';
@@ -12,7 +13,7 @@ enum AuthState {
 }
 
 class EmailAuthentication with ChangeNotifier {
-  late AuthState _state;
+  AuthState? _state;
   late String _errorMessage;
   User? _userDetail;
 
@@ -29,9 +30,13 @@ class EmailAuthentication with ChangeNotifier {
       );
 
       if (usercred.user!.uid.isNotEmpty) {
+        //caching the userid
+
         sharedPreferences.setString("uid", usercred.user!.uid);
-        emailAuthenticaitonState(AuthState.loaded);
+        sharedPreferences.setString('name', usercred.user!.displayName ?? "");
+        sharedPreferences.setString('email', usercred.user!.email ?? "");
         _userDetail = usercred.user!;
+        emailAuthenticaitonState(AuthState.loaded);
       } else {
         _errorMessage = "Authentication Failed";
         emailAuthenticaitonState(AuthState.init);
@@ -40,6 +45,7 @@ class EmailAuthentication with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       _errorMessage = e.message!;
       showError(message: errorMessage);
+      emailAuthenticaitonState(AuthState.init);
     }
   }
 
@@ -53,31 +59,56 @@ class EmailAuthentication with ChangeNotifier {
         email: credential["email"],
         password: credential["password"],
       );
+
       await Future.delayed(
         const Duration(seconds: 2),
       );
       if (usercred.user!.uid.isNotEmpty) {
+        //caching the userid
         sharedPreferences.setString("uid", usercred.user!.uid);
+        sharedPreferences.setString('name', usercred.user!.displayName ?? "");
+        sharedPreferences.setString('email', usercred.user!.email ?? "");
+
         emailAuthenticaitonState(AuthState.loaded);
         _userDetail = usercred.user!;
       } else {
         _errorMessage = "Authentication Failed";
         showError(message: _errorMessage);
+        //reset state.
         emailAuthenticaitonState(AuthState.init);
       }
     } on FirebaseAuthException catch (e) {
       showError(message: e.message.toString());
-      print(e.message.toString());
+      // reset the state.
+      emailAuthenticaitonState(AuthState.init);
+
       _errorMessage = e.message!;
     }
   }
 
+  //sign out
+
+  Future<bool> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+
+      sharedPreferences.setString("uid", "");
+      sharedPreferences.setString('name', "");
+      sharedPreferences.setString('email', "");
+      emailAuthenticaitonState(AuthState.init);
+    } on FirebaseAuthException catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   void emailAuthenticaitonState(AuthState state) {
     _state = state;
+
     notifyListeners();
   }
 
   String get errorMessage => _errorMessage;
-  AuthState get authenticationState => _state;
+  AuthState? get authenticationState => _state;
   User? get getuserCredential => _userDetail;
 }
