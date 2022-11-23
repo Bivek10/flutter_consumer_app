@@ -17,18 +17,19 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late String name;
   late String email;
   @override
   void initState() {
-    // onSet();
+    onSet();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(),
+      appBar: const Header(
+        title: "Profile",
+      ),
       body: Column(
         children: [
           Center(
@@ -53,27 +54,7 @@ class _ProfileState extends State<Profile> {
                 color: Colors.black,
               ),
               Text(
-                " name",
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.email,
-                color: Colors.black,
-              ),
-              Text(
-                " email",
+                email,
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: Colors.black,
@@ -102,7 +83,6 @@ class _ProfileState extends State<Profile> {
   }
 
   void onSet() {
-    name = sharedPreferences.getString("name")!;
     email = sharedPreferences.getString("email")!;
   }
 }

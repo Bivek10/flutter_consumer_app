@@ -33,7 +33,6 @@ class EmailAuthentication with ChangeNotifier {
         //caching the userid
 
         sharedPreferences.setString("uid", usercred.user!.uid);
-        sharedPreferences.setString('name', usercred.user!.displayName ?? "");
         sharedPreferences.setString('email', usercred.user!.email ?? "");
         _userDetail = usercred.user!;
         emailAuthenticaitonState(AuthState.loaded);
@@ -66,7 +65,7 @@ class EmailAuthentication with ChangeNotifier {
       if (usercred.user!.uid.isNotEmpty) {
         //caching the userid
         sharedPreferences.setString("uid", usercred.user!.uid);
-        sharedPreferences.setString('name', usercred.user!.displayName ?? "");
+       
         sharedPreferences.setString('email', usercred.user!.email ?? "");
 
         emailAuthenticaitonState(AuthState.loaded);
@@ -93,7 +92,7 @@ class EmailAuthentication with ChangeNotifier {
       await firebaseAuth.signOut();
 
       sharedPreferences.setString("uid", "");
-      sharedPreferences.setString('name', "");
+   
       sharedPreferences.setString('email', "");
       emailAuthenticaitonState(AuthState.init);
     } on FirebaseAuthException catch (e) {
@@ -112,3 +111,5 @@ class EmailAuthentication with ChangeNotifier {
   AuthState? get authenticationState => _state;
   User? get getuserCredential => _userDetail;
 }
+
+//0ca50a2ce44647fa9fe43b4612bd0acf

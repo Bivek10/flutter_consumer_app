@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:sizer/sizer.dart';
 
+import '../config/routes/routesname.dart';
 import '../widgets/molecules/roms_table_template.dart';
 
 class TableViews extends StatefulWidget {
@@ -18,7 +19,7 @@ class _TableViewsState extends State<TableViews> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
-          itemCount: 10,
+          itemCount: 2,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 2.w, mainAxisSpacing: 8.sp, crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index) {
@@ -28,7 +29,9 @@ class _TableViewsState extends State<TableViews> {
                 //     snapshot.data.getTables[index].getisTableEngage);
               },
               child: TableStructure(
-                onstartOderClick: () {},
+                onstartOderClick: () {
+                  Navigator.pushNamed(context, RouteName.menulist);
+                },
                 onviewRunningOrderClick: () {},
                 tableID: "Table" + index.toString(),
                 tableName: index.toString(),

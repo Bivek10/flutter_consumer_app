@@ -4,6 +4,7 @@ import '../../pages/demo.dart';
 import '../../pages/home_page.dart';
 import '../../pages/login_page.dart';
 import '../../pages/main_page.dart';
+import '../../pages/menu_list.dart';
 import '../../pages/profile.dart';
 import 'routesname.dart';
 
@@ -44,6 +45,8 @@ class AppRouter {
         return _materialRoute(const HomePage());
       case RouteName.profile:
         return _materialRoute(const Profile());
+      case RouteName.menulist:
+        return _materialRoute(const MenuList());
       case 'about':
         final DemoScreenArguments args =
             settings.arguments as DemoScreenArguments;

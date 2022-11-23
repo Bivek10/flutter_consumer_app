@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
   const Header({
     Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -20,13 +22,12 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        "Profile",
+        title,
         style: TextStyle(
           fontSize: 14.sp,
           color: Colors.black,
           fontWeight: FontWeight.w500,
         ),
-        
       ),
     );
   }
