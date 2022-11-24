@@ -80,12 +80,7 @@ class _MenuListState extends State<MenuList> with ConnectivityMixin {
     );
   }
 
-  @override
-  void dispose() async {
-    dio.close();
-    await cacheStore.close();
-    return super.dispose();
-  }
+  
 
   Future<MenuItemModel> getData() async {
     pathprovider.getTemporaryDirectory().then((dir) {

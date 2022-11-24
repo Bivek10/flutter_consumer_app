@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
 
+import '../../core/utils/snack_bar.dart';
+
 class TableStructure extends StatefulWidget {
   final String tableID;
   final String tableName;
@@ -32,9 +34,7 @@ class _TableStructureState extends State<TableStructure> {
   @override
   Widget build(BuildContext context) {
     // print(widget.tableID);
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.sp),
@@ -46,7 +46,7 @@ class _TableStructureState extends State<TableStructure> {
         elevation: 3,
         shape: RoundedRectangleBorder(
             side: BorderSide(color: Colors.grey.shade200, width: 2.0),
-            borderRadius: BorderRadius.circular(height * 0.01)),
+            borderRadius: BorderRadius.circular(8.sp)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -55,12 +55,12 @@ class _TableStructureState extends State<TableStructure> {
               children: [
                 Text(
                   "Table Name",
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 13.sp),
                 ),
                 // Icon(Icons.accessible_forward),
                 Text(
                   widget.tableName,
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 13.sp),
                 ),
                 CircleAvatar(
                   radius: 4,
@@ -74,12 +74,12 @@ class _TableStructureState extends State<TableStructure> {
               children: [
                 Text(
                   "Table Capacity",
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 12.sp),
                 ),
                 // Icon(Icons.person),
                 Text(
                   widget.tableCapacity,
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 12.sp),
                 ),
               ],
             ),
@@ -88,23 +88,23 @@ class _TableStructureState extends State<TableStructure> {
               children: [
                 Text(
                   "Bill Amount:",
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 13.sp),
                 ),
                 Text(
                   "Rs. " + widget.totalBill.toString(),
-                  style: TextStyle(fontSize: height * 0.017),
+                  style: TextStyle(fontSize: 13.sp),
                 )
               ],
             ),
             widget.isTableEngaged == 1
                 ? InkWell(
                     onTap: () {
-                      widget.onviewRunningOrderClick();
+                      showError(message: "Table is already booked");
                     },
                     child: Container(
-                      height: height * 0.05,
+                      height: 40.sp,
                       width: width,
-                      margin: EdgeInsets.only(bottom: height * 0.004),
+                      margin: EdgeInsets.only(bottom: 3.2.sp),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                             begin: Alignment.bottomLeft,
@@ -113,20 +113,19 @@ class _TableStructureState extends State<TableStructure> {
                               1
                             ],
                             colors: [
-                              Color.fromRGBO(142, 14, 0, 1),
-                              Color.fromRGBO(31, 28, 24, 1),
+                              Color.fromARGB(255, 238, 87, 70),
+                              Color.fromARGB(255, 91, 62, 24),
                             ]),
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(height * 0.1),
-                            topRight: Radius.circular(height * 0.1),
-                            bottomLeft: Radius.circular(height * 0.01),
-                            bottomRight: Radius.circular(height * 0.01)),
+                            topLeft: Radius.circular(80.sp),
+                            topRight: Radius.circular(80.sp),
+                            bottomLeft: Radius.circular(8.sp),
+                            bottomRight: Radius.circular(8.sp)),
                       ),
                       child: Center(
                           child: Text(
                         "Running Order",
-                        style: TextStyle(
-                            color: Colors.white, fontSize: height * 0.02),
+                        style: TextStyle(color: Colors.white, fontSize: 13.sp),
                       )),
                     ),
                   )
@@ -135,9 +134,9 @@ class _TableStructureState extends State<TableStructure> {
                       widget.onstartOderClick();
                     },
                     child: Container(
-                      height: height * 0.05,
+                      height: 40.sp,
                       width: width,
-                      margin: EdgeInsets.only(bottom: height * 0.004),
+                      margin: EdgeInsets.only(bottom: 3.2.sp),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                             begin: Alignment.bottomLeft,
@@ -146,20 +145,19 @@ class _TableStructureState extends State<TableStructure> {
                               1
                             ],
                             colors: [
-                              Color.fromRGBO(240, 255, 0, 1),
+                              Color.fromARGB(255, 226, 83, 245),
                               Color.fromRGBO(88, 207, 251, 1)
                             ]),
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(height * 0.1),
-                            topRight: Radius.circular(height * 0.1),
-                            bottomLeft: Radius.circular(height * 0.01),
-                            bottomRight: Radius.circular(height * 0.01)),
+                            topLeft: Radius.circular(80.sp),
+                            topRight: Radius.circular(80.sp),
+                            bottomLeft: Radius.circular(8.sp),
+                            bottomRight: Radius.circular(8.sp)),
                       ),
                       child: Center(
                           child: Text(
                         "Start Order",
-                        style: TextStyle(
-                            color: Colors.black, fontSize: height * 0.02),
+                        style: TextStyle(color: Colors.black, fontSize: 13.sp),
                       )),
                     ),
                   ),
