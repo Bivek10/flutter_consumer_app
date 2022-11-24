@@ -80,6 +80,13 @@ class _MenuListState extends State<MenuList> with ConnectivityMixin {
     );
   }
 
+  @override
+  void dispose() async {
+    dio.close();
+    await cacheStore.close();
+    return super.dispose();
+  }
+
   Future<MenuItemModel> getData() async {
     pathprovider.getTemporaryDirectory().then((dir) {
       //print(dir.path);
@@ -100,7 +107,7 @@ class _MenuListState extends State<MenuList> with ConnectivityMixin {
 
     if (await isInConnection()) {
       menuItem = await menuAPICtrl
-          .forceCacheCall(Config.apiUrl + "search?query=meat&number=6");
+          .refreshForceCacheCall(Config.apiUrl + "search?query=meat&number=6");
     } else {
       menuItem = await menuAPICtrl
           .forceCacheCall(Config.apiUrl + "search?query=meat&number=6");

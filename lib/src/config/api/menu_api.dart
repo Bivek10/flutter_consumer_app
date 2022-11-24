@@ -49,6 +49,12 @@ class MenuAPICtrl {
     }
     return _getResponseContent(resp);
   }
+
+  Future<MenuItemModel> refreshForceCacheCall(String url) async {
+    final resp = await _call(url: url, policy: CachePolicy.refreshForceCache);
+    if (resp == null) return MenuItemModel.erroMessage({"error": "No response"});
+    return _getResponseContent(resp);
+  }
 }
 
 /*
