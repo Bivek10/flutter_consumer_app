@@ -2,86 +2,110 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
+enum FontFamilyType {
+  exo,
+}
+
+extension FontFamlilyExtension on FontFamilyType {
+  String? name() {
+    switch (this) {
+      case FontFamilyType.exo:
+        return "exo2";
+    }
+  }
+}
+
 class AppTheme {
-  static TextStyle headline1 = const TextStyle(
+  static FontFamilyType fontFamilyType = FontFamilyType.exo;
+
+  static TextStyle headline1 = TextStyle(
     color: AppColors.black,
     height: 48.0 / 36.0,
     // line height calculated as is fontSize * height so, <expected-height>/<font-size>
     fontSize: 36.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle headline2Bold = const TextStyle(
+  static TextStyle headline2Bold = TextStyle(
     color: AppColors.black,
     height: 36.0 / 18.0,
     fontSize: 18.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle heading2Regular = const TextStyle(
+  static TextStyle heading2Regular = TextStyle(
     color: AppColors.black,
     height: 36.0 / 18.0,
     fontSize: 18.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w600,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle button = const TextStyle(
+  static TextStyle button = TextStyle(
     color: AppColors.black,
     height: 26.0 / 18.0,
     fontSize: 18.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w600,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle captionBold = const TextStyle(
+  static TextStyle captionBold = TextStyle(
     color: AppColors.black,
     height: 22.0 / 16.0,
     fontSize: 16.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle captionRegular = const TextStyle(
+  static TextStyle captionRegular = TextStyle(
     color: AppColors.black,
     height: 22.0 / 16.0,
     fontSize: 16.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.normal,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle textBold = const TextStyle(
+  static TextStyle textBold = TextStyle(
     color: AppColors.black,
     height: 20.0 / 14.0,
     fontSize: 14.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle textRegular = const TextStyle(
+  static TextStyle textRegular = TextStyle(
     color: AppColors.black,
     height: 20.0 / 14.0,
     fontSize: 14.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.normal,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static TextStyle subHeading = const TextStyle(
+  static TextStyle subHeading = TextStyle(
     color: AppColors.black,
     height: 20.0 / 12.0,
     fontSize: 12.0,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.normal,
+    fontFamily: fontFamilyType.name(),
     leadingDistribution: TextLeadingDistribution.even,
   );
 

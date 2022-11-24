@@ -56,4 +56,5 @@ class AuthProvider with ChangeNotifier {
     _phoneNumber = phoneNumber;
     notifyListeners();
   }
+  
 }

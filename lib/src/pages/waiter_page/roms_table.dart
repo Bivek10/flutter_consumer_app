@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:sizer/sizer.dart';
-
-import '../config/routes/routesname.dart';
-import '../widgets/molecules/roms_table_template.dart';
+import '../../config/routes/routesname.dart';
+import '../../widgets/molecules/roms_table_template.dart';
 
 class TableViews extends StatefulWidget {
   const TableViews({Key? key}) : super(key: key);
@@ -24,10 +21,7 @@ class _TableViewsState extends State<TableViews> {
               crossAxisSpacing: 2.w, mainAxisSpacing: 8.sp, crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              onTapUp: (TapUpDetails details) {
-                // showPopup(details.globalPosition,
-                //     snapshot.data.getTables[index].getisTableEngage);
-              },
+              onTapUp: (TapUpDetails details) {},
               child: TableStructure(
                 onstartOderClick: () {
                   Navigator.pushNamed(context, RouteName.menulist);

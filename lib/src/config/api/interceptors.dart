@@ -23,5 +23,3 @@ class DioAuthInterceptors extends Interceptor {
     super.onResponse(response, handler);
   }
 }
-
-//https://api.spoonacular.com/food/menuItems/search?query=meat&number=10

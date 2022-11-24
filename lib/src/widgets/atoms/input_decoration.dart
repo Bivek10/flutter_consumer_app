@@ -51,6 +51,5 @@ class CostumTextBorder {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     color: AppColors.black,
-    
   );
 }

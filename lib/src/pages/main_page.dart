@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../injector.dart';
 import '../providers/email_auth_provider.dart';
-import 'home_page.dart';
+import 'waiter_page/home_page.dart';
 import 'login_page.dart';
 
 class MainPage extends StatefulWidget {

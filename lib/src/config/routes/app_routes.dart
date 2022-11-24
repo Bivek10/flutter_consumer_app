@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/demo.dart';
-import '../../pages/home_page.dart';
+import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/menu_list.dart';

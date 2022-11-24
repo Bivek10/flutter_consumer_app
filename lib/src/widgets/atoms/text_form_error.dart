@@ -22,3 +22,20 @@ class TextFormError extends StatelessWidget {
     );
   }
 }
+
+class ErrorContainer extends StatelessWidget {
+  final String error;
+  const ErrorContainer({Key? key, required this.error}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: error.isNotEmpty ? 35 : 30,
+      child: error.isNotEmpty
+          ? TextFormError(
+              errorMessage: error,
+            )
+          : Container(),
+    );
+  }
+}

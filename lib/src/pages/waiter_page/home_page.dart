@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-import '../config/routes/routesname.dart';
-import '../widgets/atoms/menu_button.dart';
+import '../../config/routes/routesname.dart';
+import '../../config/themes/app_theme.dart';
+import '../../widgets/atoms/menu_button.dart';
 import 'roms_table.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,11 +27,7 @@ class _HomePageState extends State<HomePage> {
         ),
         title: Text(
           "Table View",
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTheme.subHeading,
         ),
         actions: [
           IconButton(

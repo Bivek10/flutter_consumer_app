@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
 
+import '../../config/themes/colors.dart';
 import '../../core/utils/snack_bar.dart';
 
 class TableStructure extends StatefulWidget {
@@ -106,16 +107,7 @@ class _TableStructureState extends State<TableStructure> {
                       width: width,
                       margin: EdgeInsets.only(bottom: 3.2.sp),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            stops: [
-                              0,
-                              1
-                            ],
-                            colors: [
-                              Color.fromARGB(255, 238, 87, 70),
-                              Color.fromARGB(255, 91, 62, 24),
-                            ]),
+                        gradient: AppColors.busygradient,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(80.sp),
                             topRight: Radius.circular(80.sp),

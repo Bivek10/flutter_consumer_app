@@ -3,7 +3,6 @@ import 'package:sizer/sizer.dart';
 
 import '../core/utils/snack_bar.dart';
 import '../models/menu_item_mode.dart';
-import '../widgets/atoms/menu_button.dart';
 
 class MenuItemBase extends StatelessWidget {
   const MenuItemBase({Key? key, required this.menuItems}) : super(key: key);
