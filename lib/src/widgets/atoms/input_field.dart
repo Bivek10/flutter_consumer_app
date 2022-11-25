@@ -45,7 +45,7 @@ class InputField extends StatelessWidget {
           children: [
             if (label != null)
               Text(label!,
-                  style: (labelStyle ?? Theme.of(context).textTheme.subtitle1)!
+                  style: (labelStyle ?? Theme.of(context).textTheme.subtitle2)!
                       .copyWith(
                           color: enabled == false ? AppColors.greyDark : null)),
             if (required == true)

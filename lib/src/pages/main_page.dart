@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../injector.dart';
 import '../providers/email_auth_provider.dart';
 import 'waiter_page/home_page.dart';
-import 'login_page.dart';
+import 'login/register/login_page.dart';
 
 class MainPage extends StatefulWidget {
   static const pageUrl = "/";
@@ -30,9 +30,7 @@ class _MainPageState extends State<MainPage> {
         : Consumer<EmailAuthentication>(builder: (context, value, child) {
             return value.authenticationState == AuthState.loaded
                 ? const HomePage()
-                : const LoginPage(
-                    entryType: EntryType.login,
-                  );
+                : const LoginPage();
           });
   }
 }

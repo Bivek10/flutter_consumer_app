@@ -36,8 +36,12 @@ class _MenuListState extends State<MenuList> with ConnectivityMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(
+      appBar: Header(
         title: "Menu List",
+        onPressedAction: () {},
+        onPressedLeading: () {},
+        showAction: false,
+        showMenu: false,
       ),
       body: FutureBuilder(
         future: getData(),
@@ -79,8 +83,6 @@ class _MenuListState extends State<MenuList> with ConnectivityMixin {
       ),
     );
   }
-
-  
 
   Future<MenuItemModel> getData() async {
     pathprovider.getTemporaryDirectory().then((dir) {

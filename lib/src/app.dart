@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 import 'config/routes/app_routes.dart';
 import 'config/routes/routesname.dart';
 import 'config/themes/app_theme.dart';
-import 'pages/login_page.dart';
+import 'pages/login/register/login_page.dart';
 import 'providers/auth_provider.dart';
 import 'providers/email_auth_provider.dart';
 import 'providers/onboarding_provider.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
+import '../../config/api/user_info_api.dart';
 import '../../config/routes/routesname.dart';
-import '../../config/themes/app_theme.dart';
-import '../../widgets/atoms/menu_button.dart';
+import '../../widgets/molecules/drawerwidget.dart';
+import '../../widgets/molecules/header.dart';
 import 'roms_table.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,35 +14,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late Map<String, dynamic> userdata;
+  @override
+  void initState() {
+    UserInfoAPI userInfoAPI = UserInfoAPI();
+    userdata = userInfoAPI.getUserInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.grey,
-          ),
+      key: _scaffoldKey,
+      appBar: Header(
+        title: "Himalayan Resturents",
+        onPressedAction: () {},
+        onPressedLeading: () {
+          _scaffoldKey.currentState!.openDrawer();
+        },
+        showAction: true,
+        showMenu: true,
+      ),
+      drawer: Drawer(
+        child: DrawerWidget(
+          userinfo: userdata,
         ),
-        title: Text(
-          "Table View",
-          style: AppTheme.subHeading,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, RouteName.profile);
-            },
-            icon: const Icon(
-              Icons.person,
-              color: Colors.black,
-            ),
-          )
-        ],
       ),
       body: const TableViews(),
-      bottomNavigationBar: Row(
+    );
+  }
+}
+
+
+/*
+  bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           BottomAppBar(
@@ -51,8 +57,9 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: MenuButton(
+                showIcon: false,
                 iconname: Icons.add,
-                color: Colors.black,
+                color: Colors.orange,
                 menuTxt: "Add Table",
                 onClick: () {},
               ),
@@ -60,6 +67,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
-  }
-}
+    
+
+*/

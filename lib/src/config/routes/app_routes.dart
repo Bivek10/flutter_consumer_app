@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/demo.dart';
+import '../../pages/login/register/registration.dart';
 import '../../pages/waiter_page/home_page.dart';
-import '../../pages/login_page.dart';
+import '../../pages/login/register/login_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/menu_list.dart';
 import '../../pages/profile.dart';
@@ -33,14 +34,11 @@ class AppRouter {
         return _materialRoute(const MainPage());
 
       case RouteName.loginpage:
-        EntryType type =
-            settings.arguments == null ? EntryType.login : EntryType.register;
-
         return _materialRoute(
-          LoginPage(
-            entryType: type,
-          ),
+          const LoginPage(),
         );
+      case RouteName.registrationpage:
+        return _materialRoute(const RegistrationPage());
       case RouteName.homepage:
         return _materialRoute(const HomePage());
       case RouteName.profile:

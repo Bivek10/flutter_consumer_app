@@ -27,8 +27,12 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(
+      appBar: Header(
         title: "Profile",
+        onPressedAction: () {},
+        onPressedLeading: () {},
+        showAction: false,
+        showMenu: false,
       ),
       body: Column(
         children: [
@@ -66,6 +70,7 @@ class _ProfileState extends State<Profile> {
           MenuButton(
             color: Colors.black,
             menuTxt: "Log Out",
+            showIcon: false,
             iconname: Icons.logout,
             onClick: () async {
               bool isLogout =

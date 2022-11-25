@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class MenuButton extends StatelessWidget {
   final Color color;
-
+  final bool showIcon;
   final String menuTxt;
   final IconData iconname;
   final Function onClick;
@@ -13,6 +15,7 @@ class MenuButton extends StatelessWidget {
     required this.menuTxt,
     required this.iconname,
     required this.onClick,
+    required this.showIcon,
   }) : super(key: key);
 
   @override
@@ -22,7 +25,7 @@ class MenuButton extends StatelessWidget {
         onClick();
       },
       child: Card(
-        color: Colors.orange,
+        color: color,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.sp)),
         child: Padding(
@@ -32,27 +35,35 @@ class MenuButton extends StatelessWidget {
             // shape: CircleBorder(),
             clipBehavior: Clip.hardEdge,
             color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Card(
-                  color: Colors.white,
-                  child: Icon(
-                    iconname,
-                    color: Colors.black,
-                    size: 16.sp,
-                  ),
-                ),
-                Text(
-                  menuTxt,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13.sp,
-                    letterSpacing: 1,
-                  ),
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 5,
+                right: 5,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  showIcon
+                      ? Card(
+                          color: Colors.white,
+                          child: Icon(
+                            iconname,
+                            color: Colors.black,
+                            size: 16.sp,
+                          ),
+                        )
+                      : const SizedBox(),
+                  Text(
+                    menuTxt,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      letterSpacing: 1,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
