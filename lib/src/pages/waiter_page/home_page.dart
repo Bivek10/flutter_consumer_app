@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/api/user_info_api.dart';
 import '../../config/routes/routesname.dart';
+import '../../widgets/atoms/menu_button.dart';
 import '../../widgets/molecules/drawerwidget.dart';
 import '../../widgets/molecules/header.dart';
 import 'roms_table.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     UserInfoAPI userInfoAPI = UserInfoAPI();
     userdata = userInfoAPI.getUserInfo();
+    UserCached.userrole = userdata["role"];
     super.initState();
   }
 
@@ -42,31 +44,32 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: const TableViews(),
+      bottomNavigationBar: UserCached.userrole == "Admin"
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BottomAppBar(
+                    color: Colors.transparent,
+                    elevation: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: MenuButton(
+                        showIcon: true,
+                        iconname: Icons.add,
+                        color: Colors.orange,
+                        menuTxt: "Add Table",
+                        onClick: () {
+                          Navigator.pushNamed(context, RouteName.addtable);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : const SizedBox(),
     );
   }
 }
-
-
-/*
-  bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          BottomAppBar(
-            color: Colors.transparent,
-            elevation: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: MenuButton(
-                showIcon: false,
-                iconname: Icons.add,
-                color: Colors.orange,
-                menuTxt: "Add Table",
-                onClick: () {},
-              ),
-            ),
-          ),
-        ],
-      ),
-    
-
-*/

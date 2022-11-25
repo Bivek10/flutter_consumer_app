@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../pages/demo.dart';
 import '../../pages/login/register/registration.dart';
+import '../../pages/manage_table/add_table.dart';
 import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login/register/login_page.dart';
 import '../../pages/main_page.dart';
@@ -45,6 +46,8 @@ class AppRouter {
         return _materialRoute(const Profile());
       case RouteName.menulist:
         return _materialRoute(const MenuList());
+      case RouteName.addtable:
+        return _materialRoute(const AddTable());
       case 'about':
         final DemoScreenArguments args =
             settings.arguments as DemoScreenArguments;

@@ -10,7 +10,7 @@ class UserInfoAPI with ConnectivityMixin {
     if (await isInConnection()) {
       if (UserCached.userdata.isNotEmpty) {
         data = UserCached.userdata;
-        print('yes');
+        //print('yes');
       } else {
         String uid = sharedPreferences.getString('uid')!;
         firebaseFirestore
@@ -40,4 +40,5 @@ class UserInfoAPI with ConnectivityMixin {
 
 class UserCached {
   static Map<String, dynamic> userdata = {};
+  static String userrole="";
 }

@@ -91,14 +91,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ],
           ),
         ),
-        ...List.generate(
-          pages.length,
-          (index) => DrawerList(
-            iconData: icons[index],
-            text: pages[index],
-            tap: () {},
+        if (widget.userinfo["role"] == "Admin")
+          ...List.generate(
+            pages.length,
+            (index) => DrawerList(
+              iconData: icons[index],
+              text: pages[index],
+              tap: () {},
+            ),
           ),
-        ),
       ],
     );
   }

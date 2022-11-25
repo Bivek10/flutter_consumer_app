@@ -27,6 +27,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
+ 
   final _emailFieldKey = GlobalKey<FormBuilderFieldState>();
   ValueNotifier<bool> isLoginSuccess = ValueNotifier<bool>(false);
 
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+ 
   }
 
   validdateLoginForm() async {
@@ -178,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
+
 }
 
 extension VerifyString on String {

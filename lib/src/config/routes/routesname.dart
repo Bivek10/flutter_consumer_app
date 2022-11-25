@@ -1,4 +1,5 @@
 import '../../pages/login/register/registration.dart';
+import '../../pages/manage_table/add_table.dart';
 import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login/register/login_page.dart';
 import '../../pages/main_page.dart';
@@ -12,4 +13,5 @@ class RouteName {
   static const homepage = HomePage.pageUrl;
   static const profile = Profile.pageUrl;
   static const menulist = MenuList.pageUrl;
+  static const addtable = AddTable.pageUrl;
 }
