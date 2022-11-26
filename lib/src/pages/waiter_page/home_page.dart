@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../config/api/manage_table_api.dart';
 import '../../config/api/user_info_api.dart';
 import '../../config/routes/routesname.dart';
+import '../../widgets/atoms/loader.dart';
 import '../../widgets/atoms/menu_button.dart';
 import '../../widgets/molecules/drawerwidget.dart';
 import '../../widgets/molecules/header.dart';
+import '../manage_table/add_table.dart';
 import 'roms_table.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,8 +21,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Map<String, dynamic> userdata;
+  late ManageTableApi manageTableApi;
   @override
   void initState() {
+    manageTableApi = ManageTableApi();
     UserInfoAPI userInfoAPI = UserInfoAPI();
     userdata = userInfoAPI.getUserInfo();
     UserCached.userrole = userdata["role"];
@@ -43,7 +49,24 @@ class _HomePageState extends State<HomePage> {
           userinfo: userdata,
         ),
       ),
-      body: const TableViews(),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: manageTableApi.getTableInfo(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Map<String, dynamic>> data = snapshot.data!.docs.map((e) {
+                Map<String, dynamic> v = {"uid": e.id};
+                v.addAll(e.data() as Map<String, dynamic>);
+
+                return v;
+              }).toList();
+
+              return TableViews(
+                tabledata: data,
+              ); // print(data.length);
+
+            }
+            return const Center(child: const Loader());
+          }),
       bottomNavigationBar: UserCached.userrole == "Admin"
           ? Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
@@ -61,7 +84,11 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.orange,
                         menuTxt: "Add Table",
                         onClick: () {
-                          Navigator.pushNamed(context, RouteName.addtable);
+                          Navigator.pushNamed(
+                            context,
+                            RouteName.addtable,
+                            arguments: EditFormValue(false, {}, ""),
+                          );
                         },
                       ),
                     ),

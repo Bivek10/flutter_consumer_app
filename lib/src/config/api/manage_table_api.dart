@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -55,22 +57,35 @@ class ManageTableApi with ConnectivityMixin {
     return isChecked;
   }
 
-  Future<List<Map<String, dynamic>>> getTableInfo() async {
-    List<Map<String, dynamic>> data = [];
-    if (await isInConnection()) {
-      firebaseFirestore
-          .collection(AppSecrets.tablecollection)
-          .get()
-          .then((value) {
-        for (var element in value.docs) {
-          Map<String, dynamic> ele = element.data();
-          data.add(ele);
-        }
-      });
-    } else {
-      data.add({"error": "No connection"});
-      showError(message: "No internet connection");
-    }
-    return data;
+  Stream<QuerySnapshot<Object?>> getTableInfo() {
+    return firebaseFirestore.collection(AppSecrets.tablecollection).snapshots();
+  }
+
+  deleteTable(String tableUid) {
+    firebaseFirestore
+        .collection(AppSecrets.tablecollection)
+        .doc(tableUid)
+        .delete()
+        .then((value) {
+      showSuccess(message: "Table has removed");
+    });
+  }
+
+  editTable(
+      {required Map<String, dynamic> data,
+      required ValueNotifier<bool> isSuccess,
+      required GlobalKey<FormBuilderState> formKey,
+      required String tableUid}) async {
+    await firebaseFirestore
+        .collection(AppSecrets.tablecollection)
+        .doc(tableUid)
+        .set(data)
+        .then((value) {
+      isSuccess.value = false;
+      showSuccess(message: "Table update successfully!");
+    }).onError((error, stackTrace) {
+      isSuccess.value = false;
+      showError(message: error.toString());
+    });
   }
 }

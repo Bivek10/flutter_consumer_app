@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import '../../config/api/manage_table_api.dart';
+import '../../core/utils/snack_bar.dart';
 import '../../widgets/atoms/button.dart';
 import '../../widgets/atoms/input_field.dart';
 import '../../widgets/atoms/text_input.dart' as field;
@@ -12,7 +12,12 @@ import '../../widgets/molecules/header.dart';
 class AddTable extends StatefulWidget {
   static const pageUrl = "/addtable";
 
-  const AddTable({Key? key}) : super(key: key);
+  final EditFormValue editFormValue;
+
+  const AddTable({
+    Key? key,
+    required this.editFormValue,
+  }) : super(key: key);
 
   @override
   State<AddTable> createState() => _AddTableState();
@@ -21,19 +26,32 @@ class AddTable extends StatefulWidget {
 class _AddTableState extends State<AddTable> {
   ValueNotifier<bool> isSuccess = ValueNotifier<bool>(false);
   final _formKey = GlobalKey<FormBuilderState>();
+  final _tableIDKey = GlobalKey<FormBuilderFieldState>();
+
   String? tableid = "";
   String? tablecapacity = "";
+
+  @override
+  void initState() {
+    tableid = widget.editFormValue.initialvalue["tableid"];
+    tablecapacity = widget.editFormValue.initialvalue["capacity"];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(
-          title: "Add Table",
-          showMenu: false,
-          showAction: false,
-          onPressedLeading: () {},
-          onPressedAction: () {}),
+        title: "Add Table",
+        showMenu: false,
+        showAction: false,
+        onPressedLeading: () {},
+        onPressedAction: () {},
+      ),
       body: FormBuilder(
+        initialValue: widget.editFormValue.isEdit
+            ? widget.editFormValue.initialvalue
+            : {},
         key: _formKey,
         autovalidateMode: AutovalidateMode.disabled,
         // autovalidate: state is LoginblocLoading ? true : false,
@@ -45,11 +63,13 @@ class _AddTableState extends State<AddTable> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: InputField(
+                  key: _tableIDKey,
                   label: "Table ID",
                   child: field.TextInput(
                       keyboardType: TextInputType.number,
-                      name: "Table ID",
+                      name: "table_id",
                       hintText: "1",
+                      enabled: widget.editFormValue.isEdit ? false : true,
                       prefixIcon: const Icon(Icons.table_bar),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -109,7 +129,9 @@ class _AddTableState extends State<AddTable> {
                             validdateLoginForm();
                           }
                         },
-                        child: const Text("Add Table"),
+                        child: widget.editFormValue.isEdit
+                            ? const Text("Edit Table")
+                            : const Text("Add Table"),
                       );
                     },
                   ),
@@ -132,14 +154,31 @@ class _AddTableState extends State<AddTable> {
         "tableid": tableid,
         "capacity": tablecapacity,
         "isRunning": false,
+        "totalbill": "0"
       };
-
       ManageTableApi manageTableApi = ManageTableApi();
-      manageTableApi.addTable(
-        cred: tableData,
-        isSuccess: isSuccess,
-        formKey: _formKey,
-      );
+      if (widget.editFormValue.isEdit) {
+        manageTableApi.editTable(
+          data: tableData,
+          isSuccess: isSuccess,
+          tableUid: widget.editFormValue.tableuid,
+          formKey: _formKey,
+        );
+      } else {
+        manageTableApi.addTable(
+          cred: tableData,
+          isSuccess: isSuccess,
+          formKey: _formKey,
+        );
+      }
     }
   }
+}
+
+class EditFormValue {
+  final bool isEdit;
+  final Map<String, dynamic> initialvalue;
+  final String tableuid;
+
+  EditFormValue(this.isEdit, this.initialvalue, this.tableuid);
 }

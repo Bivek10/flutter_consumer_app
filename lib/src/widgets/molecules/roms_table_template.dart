@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton/src/config/routes/routesname.dart';
 
 import 'package:sizer/sizer.dart';
 
+import '../../config/api/manage_table_api.dart';
+import '../../config/api/user_info_api.dart';
 import '../../config/themes/colors.dart';
 import '../../core/utils/snack_bar.dart';
+import '../../pages/manage_table/add_table.dart';
 import '../atoms/menu_button.dart';
 import 'table_content.dart';
 
 class TableStructure extends StatefulWidget {
+  final String tableuid;
   final String tableID;
   final String tableName;
   final Function onstartOderClick;
   final Function onviewRunningOrderClick;
   final String tableCapacity;
   final int? elementIndex;
-  final int isTableEngaged;
+  final bool isTableEngaged;
   final String totalBill;
 
   const TableStructure({
     Key? key,
+    required this.tableuid,
     required this.tableID,
     required this.tableName,
     required this.isTableEngaged,
@@ -34,10 +40,12 @@ class TableStructure extends StatefulWidget {
 }
 
 class _TableStructureState extends State<TableStructure> {
+  ManageTableApi manageTableApi = ManageTableApi();
+
   @override
   Widget build(BuildContext context) {
     // print(widget.tableID);
-    double width = MediaQuery.of(context).size.width;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.sp),
@@ -60,29 +68,79 @@ class _TableStructureState extends State<TableStructure> {
                 child: CircleAvatar(
                   radius: 4,
                   backgroundColor:
-                      widget.isTableEngaged == 1 ? Colors.red : Colors.green,
+                      widget.isTableEngaged ? Colors.red : Colors.green,
                 ),
               ),
-              const TableContent(label: "Table ID:", labelvalue: "0"),
-              const TableContent(label: "Capacity:", labelvalue: "4 Person"),
-              const TableContent(label: "Total Bill:", labelvalue: "Rs. 0"),
-              widget.isTableEngaged == 1
-                  ? MenuButton(
-                      color: Colors.red,
-                      menuTxt: "Running",
-                      iconname: Icons.check,
-                      showIcon: false,
-                      onClick: () {
-                        showError(message: "Table is already booked");
-                      })
-                  : MenuButton(
-                      color: Colors.green,
-                      menuTxt: "Start Order",
-                      iconname: Icons.check,
-                      showIcon: false,
-                      onClick: () {
-                        showError(message: "");
-                      })
+              TableContent(label: "Table ID:", labelvalue: widget.tableID),
+              TableContent(
+                  label: "Capacity:", labelvalue: widget.tableCapacity),
+              TableContent(
+                label: "Total Bill:",
+                labelvalue: widget.totalBill,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  widget.isTableEngaged
+                      ? MenuButton(
+                          color: Colors.red,
+                          menuTxt: "Running",
+                          iconname: Icons.check,
+                          showIcon: false,
+                          onClick: () {
+                            showError(message: "Table is already booked");
+                          })
+                      : MenuButton(
+                          color: Colors.green,
+                          menuTxt: "Start Order",
+                          iconname: Icons.check,
+                          showIcon: false,
+                          onClick: () {
+                            showError(message: "");
+                          }),
+                  UserCached.userrole == "Admin" && !widget.isTableEngaged
+                      ? PopupMenuButton(
+                          child: const Icon(
+                            Icons.more_vert,
+                            color: Colors.red,
+                          ),
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              value: 0,
+                              child: ListTile(
+                                leading: Icon(Icons.edit),
+                                title: Text("Edit"),
+                              ),
+                            ),
+                            const PopupMenuItem(
+                              value: 1,
+                              child: ListTile(
+                                leading: Icon(Icons.delete),
+                                title: Text("Delete"),
+                              ),
+                            ),
+                          ],
+                          onSelected: (value) {
+                            if (value == 0) {
+                              Navigator.pushNamed(
+                                context,
+                                RouteName.addtable,
+                                arguments: EditFormValue(
+                                    true,
+                                    {
+                                      "table_id": widget.tableID,
+                                      "capacity": widget.tableCapacity
+                                    },
+                                    widget.tableuid),
+                              );
+                            } else {
+                              manageTableApi.deleteTable(widget.tableuid);
+                            }
+                          },
+                        )
+                      : const SizedBox()
+                ],
+              ),
             ],
           ),
         ),

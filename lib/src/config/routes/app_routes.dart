@@ -47,7 +47,9 @@ class AppRouter {
       case RouteName.menulist:
         return _materialRoute(const MenuList());
       case RouteName.addtable:
-        return _materialRoute(const AddTable());
+        EditFormValue editFormValue = settings.arguments as EditFormValue;
+
+        return _materialRoute(AddTable(editFormValue: editFormValue,));
       case 'about':
         final DemoScreenArguments args =
             settings.arguments as DemoScreenArguments;
