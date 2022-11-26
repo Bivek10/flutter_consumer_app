@@ -72,15 +72,7 @@ class _ProfileState extends State<Profile> {
             menuTxt: "Log Out",
             showIcon: false,
             iconname: Icons.logout,
-            onClick: () async {
-              bool isLogout =
-                  await Provider.of<EmailAuthentication>(context, listen: false)
-                      .signOut();
-              if (isLogout) {
-                Navigator.pushNamedAndRemoveUntil(context, RouteName.mainPage,
-                    (Route<dynamic> route) => false);
-              }
-            },
+            onClick: () async {},
           )
         ],
       ),

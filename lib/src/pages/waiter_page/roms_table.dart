@@ -22,7 +22,8 @@ class _TableViewsState extends State<TableViews> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GridView.builder(
+      child:
+       GridView.builder(
           itemCount: widget.tabledata.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 2.w, mainAxisSpacing: 8.sp, crossAxisCount: 2),
@@ -43,6 +44,7 @@ class _TableViewsState extends State<TableViews> {
               ),
             );
           }),
+    
     );
   }
 }

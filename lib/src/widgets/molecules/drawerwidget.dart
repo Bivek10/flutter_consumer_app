@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../config/api/user_info_api.dart';
+import '../../config/routes/routesname.dart';
 import '../../config/themes/colors.dart';
+import '../../providers/email_auth_provider.dart';
 import 'drawer_list.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -18,18 +21,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   final ScrollController x = ScrollController();
   Map<String, dynamic> userdetails = {};
   List<String> pages = [
-    "Manage Table",
     "Manage Menu",
     "Manage Staff",
     "View Orders",
-    "View Report"
+    "View Report",
+    "Log Out"
   ];
   List<IconData> icons = [
-    Icons.table_bar,
     Icons.category,
     Icons.person,
     Icons.delivery_dining,
-    Icons.report
+    Icons.report,
+    Icons.logout,
   ];
 
   @override
@@ -97,7 +100,21 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             (index) => DrawerList(
               iconData: icons[index],
               text: pages[index],
-              tap: () {},
+              tap: () async {
+                if (index == 1) {
+                  Navigator.pushNamed(context, RouteName.managestaff);
+                }
+                if(index==4){
+                  bool isLogout =
+                  await Provider.of<EmailAuthentication>(context, listen: false)
+                      .signOut();
+              if (isLogout) {
+                // ignore: use_build_context_synchronously
+                Navigator.pushNamedAndRemoveUntil(context, RouteName.mainPage,
+                    (Route<dynamic> route) => false);
+              }
+                }
+              },
             ),
           ),
       ],

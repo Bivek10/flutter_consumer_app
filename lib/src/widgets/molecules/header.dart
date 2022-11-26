@@ -10,6 +10,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   final bool showAction;
   final Function onPressedLeading;
   final Function onPressedAction;
+  final Color ? bgColor;
 
   const Header(
       {Key? key,
@@ -17,12 +18,13 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
       required this.showMenu,
       required this.showAction,
       required this.onPressedLeading,
-      required this.onPressedAction})
+      required this.onPressedAction,  this.bgColor})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: bgColor,
       leading: showMenu
           ? Padding(
               padding: const EdgeInsets.all(8.0),

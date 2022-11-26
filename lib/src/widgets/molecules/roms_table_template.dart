@@ -146,5 +146,6 @@ class _TableStructureState extends State<TableStructure> {
         ),
       ),
     );
+ 
   }
 }

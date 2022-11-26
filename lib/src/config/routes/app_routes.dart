@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../pages/demo.dart';
 import '../../pages/login/register/registration.dart';
+import '../../pages/manage_staff/staff_setting.dart';
 import '../../pages/manage_table/add_table.dart';
 import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login/register/login_page.dart';
@@ -46,10 +47,13 @@ class AppRouter {
         return _materialRoute(const Profile());
       case RouteName.menulist:
         return _materialRoute(const MenuList());
+      case RouteName.managestaff:
+        return _materialRoute(const StaffSetting());
       case RouteName.addtable:
         EditFormValue editFormValue = settings.arguments as EditFormValue;
-
-        return _materialRoute(AddTable(editFormValue: editFormValue,));
+        return _materialRoute(AddTable(
+          editFormValue: editFormValue,
+        ));
       case 'about':
         final DemoScreenArguments args =
             settings.arguments as DemoScreenArguments;
