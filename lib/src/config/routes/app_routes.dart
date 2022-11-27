@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../pages/categories/add_categories_form.dart';
+import '../../pages/categories/add_food_form.dart';
+import '../../pages/categories/manage_category_home.dart';
 import '../../pages/demo.dart';
 import '../../pages/login/register/registration.dart';
 import '../../pages/manage_staff/staff_setting.dart';
@@ -49,6 +52,16 @@ class AppRouter {
         return _materialRoute(const MenuList());
       case RouteName.managestaff:
         return _materialRoute(const StaffSetting());
+      case RouteName.categoryHome:
+        return _materialRoute(const CategoryHome());
+      case RouteName.foodform:
+        String categoryID = settings.arguments as String;
+        return _materialRoute(AddFoodMenu(
+          categoryID: categoryID,
+        ));
+      case RouteName.categoryform:
+        EditFormValue editFormValue = settings.arguments as EditFormValue;
+        return _materialRoute(AddCategoires(editFormValue: editFormValue));
       case RouteName.addtable:
         EditFormValue editFormValue = settings.arguments as EditFormValue;
         return _materialRoute(AddTable(

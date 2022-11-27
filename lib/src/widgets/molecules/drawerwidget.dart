@@ -101,18 +101,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               iconData: icons[index],
               text: pages[index],
               tap: () async {
+                if (index == 0) {
+                  Navigator.pushNamed(context, RouteName.categoryHome);
+                }
                 if (index == 1) {
                   Navigator.pushNamed(context, RouteName.managestaff);
                 }
-                if(index==4){
-                  bool isLogout =
-                  await Provider.of<EmailAuthentication>(context, listen: false)
+                if (index == 4) {
+                  bool isLogout = await Provider.of<EmailAuthentication>(
+                          context,
+                          listen: false)
                       .signOut();
-              if (isLogout) {
-                // ignore: use_build_context_synchronously
-                Navigator.pushNamedAndRemoveUntil(context, RouteName.mainPage,
-                    (Route<dynamic> route) => false);
-              }
+                  if (isLogout) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        RouteName.mainPage, (Route<dynamic> route) => false);
+                  }
                 }
               },
             ),

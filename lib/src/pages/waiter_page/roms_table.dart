@@ -33,6 +33,7 @@ class _TableViewsState extends State<TableViews> {
               child: TableStructure(
                 onstartOderClick: () {
                   Navigator.pushNamed(context, RouteName.menulist);
+                  
                 },
                 onviewRunningOrderClick: () {},
                 tableuid: widget.tabledata[index]["uid"],

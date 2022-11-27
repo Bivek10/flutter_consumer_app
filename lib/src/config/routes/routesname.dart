@@ -1,3 +1,6 @@
+import '../../pages/categories/add_categories_form.dart';
+import '../../pages/categories/add_food_form.dart';
+import '../../pages/categories/manage_category_home.dart';
 import '../../pages/login/register/registration.dart';
 import '../../pages/manage_staff/staff_setting.dart';
 import '../../pages/manage_table/add_table.dart';
@@ -16,4 +19,7 @@ class RouteName {
   static const menulist = MenuList.pageUrl;
   static const addtable = AddTable.pageUrl;
   static const managestaff = StaffSetting.pageUrl;
+  static const categoryform = AddCategoires.pageUrl;
+  static const categoryHome = CategoryHome.pageUrl;
+  static const foodform = AddFoodMenu.pageUrl;
 }

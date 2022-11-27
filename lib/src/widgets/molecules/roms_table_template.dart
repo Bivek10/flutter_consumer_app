@@ -96,7 +96,7 @@ class _TableStructureState extends State<TableStructure> {
                           iconname: Icons.check,
                           showIcon: false,
                           onClick: () {
-                            showError(message: "");
+                            widget.onstartOderClick();
                           }),
                   UserCached.userrole == "Admin" && !widget.isTableEngaged
                       ? PopupMenuButton(
@@ -146,6 +146,5 @@ class _TableStructureState extends State<TableStructure> {
         ),
       ),
     );
- 
   }
 }

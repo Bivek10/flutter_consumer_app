@@ -1,49 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-
 import 'package:form_builder_validators/form_builder_validators.dart';
-import '../../config/api/manage_table_api.dart';
-import '../../core/utils/snack_bar.dart';
+
+import '../../config/api/manage_food_api.dart';
 import '../../widgets/atoms/button.dart';
 import '../../widgets/atoms/input_field.dart';
-import '../../widgets/atoms/text_input.dart' as field;
-
 import '../../widgets/molecules/header.dart';
+import '../../widgets/atoms/text_input.dart' as field;
+import '../manage_table/add_table.dart';
 
-class AddTable extends StatefulWidget {
-  static const pageUrl = "/addtable";
 
+class AddCategoires extends StatefulWidget {
+  static const String pageUrl = "/categoryform";
   final EditFormValue editFormValue;
 
-  const AddTable({
-    Key? key,
-    required this.editFormValue,
-  }) : super(key: key);
+  const AddCategoires({Key? key, required this.editFormValue})
+      : super(key: key);
 
   @override
-  State<AddTable> createState() => _AddTableState();
+  State<AddCategoires> createState() => _AddCategoiresState();
 }
 
-class _AddTableState extends State<AddTable> {
+class _AddCategoiresState extends State<AddCategoires> {
   ValueNotifier<bool> isSuccess = ValueNotifier<bool>(false);
   final _formKey = GlobalKey<FormBuilderState>();
-  final _tableIDKey = GlobalKey<FormBuilderFieldState>();
 
-  String? tableid = "";
-  String? tablecapacity = "";
-
-  @override
-  void initState() {
-    tableid = widget.editFormValue.initialvalue["tableid"];
-    tablecapacity = widget.editFormValue.initialvalue["capacity"];
-    super.initState();
-  }
-
+  String? categoryid = "";
+  String? categoryname = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(
-        title: widget.editFormValue.isEdit ? "Edit Table" : "Add Table",
+        title: widget.editFormValue.isEdit ? "Edit Table" : "Add Category",
         showMenu: false,
         showAction: false,
         onPressedLeading: () {},
@@ -64,11 +52,10 @@ class _AddTableState extends State<AddTable> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: InputField(
-                  key: _tableIDKey,
-                  label: "Table ID",
+                  label: "Category ID",
                   child: field.TextInput(
                       keyboardType: TextInputType.number,
-                      name: "table_id",
+                      name: "categoryid",
                       hintText: "1",
                       enabled: widget.editFormValue.isEdit ? false : true,
                       prefixIcon: const Icon(Icons.table_bar),
@@ -76,7 +63,7 @@ class _AddTableState extends State<AddTable> {
                         FormBuilderValidators.required(),
                       ]),
                       onChanged: (value) {
-                        tableid = value;
+                        categoryid = value;
                       }),
                 ),
               ),
@@ -86,17 +73,16 @@ class _AddTableState extends State<AddTable> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: InputField(
-                  label: "Table Capacity",
+                  label: "Category Name",
                   child: field.TextInput(
-                    keyboardType: TextInputType.number,
-                    name: "capacity",
-                    hintText: "4",
+                    name: "categoryname",
+                    hintText: "Buff",
                     prefixIcon: const Icon(Icons.person),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                     ]),
                     onChanged: (value) {
-                      tablecapacity = value;
+                      categoryname = value;
                     },
                   ),
                 ),
@@ -132,8 +118,9 @@ class _AddTableState extends State<AddTable> {
                         },
                         child: widget.editFormValue.isEdit
                             ? const Text("Edit Table")
-                            : const Text("Add Table"),
+                            : const Text("Add Category"),
                       );
+                    
                     },
                   ),
                 ),
@@ -145,29 +132,27 @@ class _AddTableState extends State<AddTable> {
           ),
         ),
       ),
+   
     );
-  
   }
 
   validdateLoginForm() async {
     if (_formKey.currentState!.validate()) {
       isSuccess.value = true;
       Map<String, dynamic> tableData = {
-        "tableid": tableid,
-        "capacity": tablecapacity,
-        "isRunning": false,
-        "totalbill": "0"
+        "categoryid": categoryid,
+        "categoryname": categoryname,
       };
-      ManageTableApi manageTableApi = ManageTableApi();
+      ManageFoodApi manageFoodApi = ManageFoodApi();
       if (widget.editFormValue.isEdit) {
-        manageTableApi.editTable(
+        manageFoodApi.editCategory(
           data: tableData,
           isSuccess: isSuccess,
-          tableUid: widget.editFormValue.tableuid,
+          cateUid: widget.editFormValue.tableuid,
           formKey: _formKey,
         );
       } else {
-        manageTableApi.addTable(
+        manageFoodApi.addCategory(
           cred: tableData,
           isSuccess: isSuccess,
           formKey: _formKey,
@@ -176,12 +161,4 @@ class _AddTableState extends State<AddTable> {
     }
   }
 
-}
-
-class EditFormValue {
-  final bool isEdit;
-  final Map<String, dynamic> initialvalue;
-  final String tableuid;
-
-  EditFormValue(this.isEdit, this.initialvalue, this.tableuid);
 }

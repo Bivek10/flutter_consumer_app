@@ -3,8 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/api/api.dart';
+import 'config/permission_checker/permission_handler.dart';
 
 late SharedPreferences sharedPreferences;
+late PermissionHandlerPermissionService permissionHandler;
 
 Future<void> initializeDependencies() async {
   await EasyLocalization.ensureInitialized();
@@ -16,4 +18,5 @@ Future<void> initializeDependencies() async {
   InitDio();
 
   sharedPreferences = await SharedPreferences.getInstance();
+  permissionHandler = PermissionHandlerPermissionService();
 }
