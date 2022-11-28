@@ -70,7 +70,8 @@ class _HomePageState extends State<HomePage> {
           
           }),
       bottomNavigationBar: UserCached.userrole == "Admin"
-          ? Padding(
+          ? 
+          Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -99,6 +100,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             )
+          
           : const SizedBox(),
     );
   }

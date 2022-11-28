@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../core/utils/snack_bar.dart';
-import '../models/menu_item_mode.dart';
+import '../../core/utils/snack_bar.dart';
+import '../../models/menu_item_mode.dart';
 
 class MenuItemBase extends StatelessWidget {
   const MenuItemBase({Key? key, required this.menuItems}) : super(key: key);

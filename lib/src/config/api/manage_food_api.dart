@@ -63,6 +63,39 @@ class ManageFoodApi with ConnectivityMixin {
         .snapshots();
   }
 
+  Future<List<Map<String, dynamic>>> getCategoryFuture() async {
+    List<Map<String, dynamic>> data = [];
+    await firebaseFirestore
+        .collection(AppSecrets.categorycollection)
+        .get()
+        .then((value) {
+      for (var ele in value.docs) {
+        Map<String, dynamic> category = {"uid": ele.id};
+        category.addAll(ele.data());
+        data.add(category);
+      }
+    });
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>> getCategoryByMenu(
+      String categoryID) async {
+    List<Map<String, dynamic>> data = [];
+    await firebaseFirestore
+        .collection(AppSecrets.categorycollection)
+        .doc(categoryID)
+        .collection(AppSecrets.foodmenu)
+        .get()
+        .then((value) {
+      for (var i in value.docs) {
+        Map<String, dynamic> product = {"uid": i.id};
+        product.addAll(i.data());
+        data.add(product);
+      }
+    });
+    return data;
+  }
+
   deleteCategory(String tableUid) {
     firebaseFirestore
         .collection(AppSecrets.tablecollection)
@@ -108,8 +141,8 @@ class ManageFoodApi with ConnectivityMixin {
           .then((value) {
         isSuccess.value = false;
         formKey.currentState!.reset();
-         Provider.of<ImageFileReciver>(context, listen: false)
-              .receivedImagePath(null);
+        Provider.of<ImageFileReciver>(context, listen: false)
+            .receivedImagePath(null);
         showSuccess(
           message: "Menu item added successfully",
         );
@@ -122,10 +155,7 @@ class ManageFoodApi with ConnectivityMixin {
 
   Future<String> getDownloadURL(String fileName) async {
     try {
-      return await firebaseStorage
-          .ref()
-          .child(fileName)
-          .getDownloadURL();
+      return await firebaseStorage.ref().child(fileName).getDownloadURL();
     } catch (e) {
       return "";
     }

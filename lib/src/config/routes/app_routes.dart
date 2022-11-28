@@ -4,14 +4,16 @@ import '../../pages/categories/add_categories_form.dart';
 import '../../pages/categories/add_food_form.dart';
 import '../../pages/categories/manage_category_home.dart';
 import '../../pages/demo.dart';
+import '../../pages/display_menu/food_view.dart';
 import '../../pages/login/register/registration.dart';
 import '../../pages/manage_staff/staff_setting.dart';
 import '../../pages/manage_table/add_table.dart';
 import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login/register/login_page.dart';
 import '../../pages/main_page.dart';
-import '../../pages/menu_list.dart';
+import '../../pages/display_menu/menu_list.dart';
 import '../../pages/profile.dart';
+import '../../pages/waiter_page/roms_table.dart';
 import 'routesname.dart';
 
 class AppRouter {
@@ -54,6 +56,11 @@ class AppRouter {
         return _materialRoute(const StaffSetting());
       case RouteName.categoryHome:
         return _materialRoute(const CategoryHome());
+      case RouteName.foodmenu:
+        TableModel tableModel = settings.arguments as TableModel;
+        return _materialRoute(FoodMenu(
+          tableModel: tableModel,
+        ));
       case RouteName.foodform:
         String categoryID = settings.arguments as String;
         return _materialRoute(AddFoodMenu(

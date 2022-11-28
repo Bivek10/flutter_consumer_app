@@ -88,7 +88,7 @@ class _TableStructureState extends State<TableStructure> {
                           iconname: Icons.check,
                           showIcon: false,
                           onClick: () {
-                            showError(message: "Table is already booked");
+                            widget.onviewRunningOrderClick();
                           })
                       : MenuButton(
                           color: Colors.green,
@@ -99,7 +99,8 @@ class _TableStructureState extends State<TableStructure> {
                             widget.onstartOderClick();
                           }),
                   UserCached.userrole == "Admin" && !widget.isTableEngaged
-                      ? PopupMenuButton(
+                      ?
+                       PopupMenuButton(
                           child: const Icon(
                             Icons.more_vert,
                             color: Colors.red,
@@ -138,6 +139,7 @@ class _TableStructureState extends State<TableStructure> {
                             }
                           },
                         )
+                      
                       : const SizedBox()
                 ],
               ),

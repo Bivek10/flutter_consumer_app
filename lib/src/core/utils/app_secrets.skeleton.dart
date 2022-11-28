@@ -3,6 +3,7 @@ class AppSecrets {
   static const tablecollection = "tableInfo";
   static const categorycollection = "categoryInfo";
   static const foodmenu = "foodmenu";
+  static const tableorder = "tableorder";
 
   static const apikey = "0ca50a2ce44647fa9fe43b4612bd0acf";
   static const Map<String, dynamic> headers = {

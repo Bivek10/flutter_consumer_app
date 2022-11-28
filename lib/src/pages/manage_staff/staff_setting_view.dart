@@ -167,6 +167,7 @@ class _StaffSettingViewState extends State<StaffSettingView> {
                         context: context,
                         builder: (context) {
                           return ConfirmDialog(
+                            content: "Are you sure to delete ?",
                             onYes: () async {
                               manageStaffAPI.deleteStaffTable(
                                   widget.staffuid, context);
