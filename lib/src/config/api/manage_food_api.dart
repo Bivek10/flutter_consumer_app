@@ -98,7 +98,7 @@ class ManageFoodApi with ConnectivityMixin {
 
   deleteCategory(String tableUid) {
     firebaseFirestore
-        .collection(AppSecrets.tablecollection)
+        .collection(AppSecrets.categorycollection)
         .doc(tableUid)
         .delete()
         .then((value) {
@@ -159,5 +159,55 @@ class ManageFoodApi with ConnectivityMixin {
     } catch (e) {
       return "";
     }
+  }
+
+  Stream<QuerySnapshot> getFoodByCatID(String categoryID) {
+    return firebaseFirestore
+        .collection(AppSecrets.categorycollection)
+        .doc(categoryID)
+        .collection(AppSecrets.foodmenu)
+        .snapshots();
+  }
+
+  updateFoodMenu({
+    required Map<String, dynamic> data,
+    required ValueNotifier<bool> isSuccess,
+    required GlobalKey<FormBuilderState> formKey,
+    required String cateUid,
+    required String fooduid,
+    required BuildContext context,
+  }) async {
+    await firebaseFirestore
+        .collection(AppSecrets.categorycollection)
+        .doc(cateUid)
+        .collection(AppSecrets.foodmenu)
+        .doc(fooduid)
+        .set(data)
+        .then((value) {
+      isSuccess.value = false;
+      showSuccess(message: "Item update successfully!");
+
+      Provider.of<ImageFileReciver>(context, listen: false)
+          .receivedImagePath(null);
+    }).onError((error, stackTrace) {
+      isSuccess.value = false;
+      showError(message: error.toString());
+    });
+  }
+
+  deleteFoodItem(
+      {required String categoryID,
+      required String fooduid,
+      required BuildContext context}) {
+    firebaseFirestore
+        .collection(AppSecrets.categorycollection)
+        .doc(categoryID)
+        .collection(AppSecrets.foodmenu)
+        .doc(fooduid)
+        .delete()
+        .then((value) {
+      showSuccess(message: "Item removed successfully");
+      Navigator.pop(context);
+    });
   }
 }

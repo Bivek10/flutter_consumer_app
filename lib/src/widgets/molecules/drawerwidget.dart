@@ -24,14 +24,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     "Manage Menu",
     "Manage Staff",
     "View Orders",
-    "View Report",
     "Log Out"
   ];
   List<IconData> icons = [
     Icons.category,
     Icons.person,
     Icons.delivery_dining,
-    Icons.report,
     Icons.logout,
   ];
 
@@ -107,7 +105,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 if (index == 1) {
                   Navigator.pushNamed(context, RouteName.managestaff);
                 }
-                if (index == 4) {
+                if (index == 3) {
                   bool isLogout = await Provider.of<EmailAuthentication>(
                           context,
                           listen: false)

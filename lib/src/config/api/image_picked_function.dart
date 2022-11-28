@@ -33,11 +33,11 @@ class PickedLocalImage {
           isLoading.value = false;
           Provider.of<ImageFileReciver>(context, listen: false)
               .receivedImagePath(file);
-          Navigator.pop(context);
+          // Navigator.pop(context);
           showSuccess(message: "Image uploaded succesfully");
         }).onError((error, stackTrace) {
           isLoading.value = false;
-          Navigator.pop(context);
+          // Navigator.pop(context);
           showError(message: error.toString());
         });
       }

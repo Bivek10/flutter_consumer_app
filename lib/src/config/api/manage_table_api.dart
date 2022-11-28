@@ -109,6 +109,23 @@ class ManageTableApi with ConnectivityMixin {
       required Map<String, dynamic> tabledata,
       required String totalbill,
       required BuildContext context}) async {
+    List<String> ordertableIDList = [];
+    await firebaseFirestore
+        .collection(AppSecrets.tableorder)
+        .get()
+        .then((value) async {
+      for (var e in value.docs) {
+        if (e["tableuid"] == tableuid) {
+          await firebaseFirestore
+              .collection(AppSecrets.tableorder)
+              .doc(e.id)
+              .update(
+            {"isorder": false},
+          );
+          ordertableIDList.add(e.id);
+        }
+      }
+    });
     await firebaseFirestore
         .collection(AppSecrets.tablecollection)
         .doc(tableuid)
@@ -119,6 +136,7 @@ class ManageTableApi with ConnectivityMixin {
         "datetime": datetime.toString(),
         "tableid": tableuid,
         "paid amount": totalbill,
+        "ordertableids": ordertableIDList,
       }).then((value) {
         Navigator.pop(context);
         showSuccess(message: "Order of table is compeleted");

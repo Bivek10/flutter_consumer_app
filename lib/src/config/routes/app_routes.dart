@@ -61,11 +61,11 @@ class AppRouter {
         return _materialRoute(FoodMenu(
           tableModel: tableModel,
         ));
-      case RouteName.foodform:
-        String categoryID = settings.arguments as String;
-        return _materialRoute(AddFoodMenu(
-          categoryID: categoryID,
-        ));
+      // case RouteName.foodform:
+      //   String categoryID = settings.arguments as String;
+      //   return _materialRoute(AddFoodMenu(
+      //     categoryID: categoryID,
+      //   ));
       case RouteName.categoryform:
         EditFormValue editFormValue = settings.arguments as EditFormValue;
         return _materialRoute(AddCategoires(editFormValue: editFormValue));

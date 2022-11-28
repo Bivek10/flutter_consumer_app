@@ -23,7 +23,7 @@ class _CategoryHomeState extends State<CategoryHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(
-        title: "Manage Food",
+        title: "Manage Category",
         showMenu: false,
         showAction: false,
         onPressedLeading: () {},
@@ -41,10 +41,10 @@ class _CategoryHomeState extends State<CategoryHome> {
               }).toList();
 
               return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                return CategoryBase(categoryData: data[index]);
-              });
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return CategoryBase(categoryData: data[index]);
+                  });
             }
             return const Center(child: Loader());
           }),
@@ -77,5 +77,6 @@ class _CategoryHomeState extends State<CategoryHome> {
         ),
       ),
     );
+  
   }
 }

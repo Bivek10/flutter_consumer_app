@@ -128,7 +128,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   onPressed: () {
                     num totalbill = 0;
                     for (var ele in filterdata) {
-                      totalbill += int.parse(ele["subtotal"]);
+                      totalbill += int.parse(ele["subtotal"].toString());
                     }
 
                     ManageTableApi manageTableApi = ManageTableApi();

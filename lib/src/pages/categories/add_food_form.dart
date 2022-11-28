@@ -15,8 +15,16 @@ import 'image_upload_option.dart';
 
 class AddFoodMenu extends StatefulWidget {
   final String categoryID;
+  final bool isEdit;
+  final Map<String, dynamic> editMenuData;
+
   static const String pageUrl = "/addmenu";
-  const AddFoodMenu({Key? key, required this.categoryID}) : super(key: key);
+  const AddFoodMenu(
+      {Key? key,
+      required this.categoryID,
+      required this.isEdit,
+      required this.editMenuData})
+      : super(key: key);
 
   @override
   State<AddFoodMenu> createState() => _AddFoodMenuState();
@@ -35,10 +43,19 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
   File? file;
 
   @override
+  void initState() {
+    if (widget.isEdit) {
+      setValue();
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(widget.editMenuData);
     return Scaffold(
       appBar: Header(
-        title: "Add Menu",
+        title: widget.isEdit ? "Edit Menu" : "Add Menu",
         showMenu: false,
         showAction: false,
         onPressedLeading: () {},
@@ -49,6 +66,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
         //     ? widget.editFormValue.initialvalue
         //     : {},
         key: _formKey,
+        initialValue: widget.editMenuData,
         autovalidateMode: AutovalidateMode.disabled,
         // autovalidate: state is LoginblocLoading ? true : false,
         child: SingleChildScrollView(
@@ -62,7 +80,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
                   label: "Menu ID",
                   child: field.TextInput(
                       keyboardType: TextInputType.number,
-                      name: "menuid",
+                      name: "foodid",
                       hintText: "1",
                       enabled: true,
                       prefixIcon: const Icon(Icons.table_bar),
@@ -82,7 +100,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
                 child: InputField(
                   label: "Menu Name",
                   child: field.TextInput(
-                    name: "Menu Name",
+                    name: "foodname",
                     hintText: "Buff",
                     prefixIcon: const Icon(Icons.person),
                     validator: FormBuilderValidators.compose([
@@ -99,7 +117,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
                 child: InputField(
                   label: "Price",
                   child: field.TextInput(
-                    name: "rice",
+                    name: "price",
                     hintText: "Price amt",
                     keyboardType: TextInputType.number,
                     prefixIcon: const Icon(Icons.person),
@@ -138,7 +156,7 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
                 child: InputField(
                   label: "Discount",
                   child: field.TextInput(
-                    name: "Discount",
+                    name: "discount",
                     hintText: "Discount amt",
                     keyboardType: TextInputType.number,
                     prefixIcon: const Icon(Icons.person),
@@ -201,7 +219,9 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
                           }
                         },
 
-                        child: const Text("Add Food"),
+                        child: widget.isEdit
+                            ? const Text("Edit Food")
+                            : const Text("Add Food"),
                       );
                     },
                   ),
@@ -215,6 +235,14 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
         ),
       ),
     );
+  }
+
+  setValue() {
+    foodid = widget.editMenuData["foodid"];
+    foodname = widget.editMenuData["foodname"];
+    discount = widget.editMenuData["discount"];
+    rating = widget.editMenuData["rating"];
+    price = widget.editMenuData["price"];
   }
 
   validdateLoginForm() async {
@@ -234,6 +262,33 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
         String imageurl = await manageFoodApi.getDownloadURL(filename);
         if (imageurl != "") {
           menuData.addAll({"imageurl": imageurl});
+          if (widget.isEdit) {
+            manageFoodApi.updateFoodMenu(
+                context: context,
+                cateUid: widget.categoryID,
+                data: menuData,
+                fooduid: widget.editMenuData["uid"],
+                isSuccess: isSuccess,
+                formKey: _formKey);
+          } else {
+            manageFoodApi.addFoodMenu(
+                context: context,
+                catID: widget.categoryID,
+                cred: menuData,
+                isSuccess: isSuccess,
+                formKey: _formKey);
+          }
+        }
+      } else {
+        if (widget.isEdit) {
+          manageFoodApi.updateFoodMenu(
+              context: context,
+              cateUid: widget.categoryID,
+              data: menuData,
+              fooduid: widget.editMenuData["uid"],
+              isSuccess: isSuccess,
+              formKey: _formKey);
+        } else {
           manageFoodApi.addFoodMenu(
               context: context,
               catID: widget.categoryID,
@@ -241,13 +296,6 @@ class _AddFoodMenuState extends State<AddFoodMenu> {
               isSuccess: isSuccess,
               formKey: _formKey);
         }
-      } else {
-        manageFoodApi.addFoodMenu(
-            context: context,
-            catID: widget.categoryID,
-            cred: menuData,
-            isSuccess: isSuccess,
-            formKey: _formKey);
       }
     }
   }
