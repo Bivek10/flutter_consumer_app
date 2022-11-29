@@ -1,4 +1,4 @@
-package com.example.flutter_skeleton
+package com.example.flutter_consumer
 
 import io.flutter.embedding.android.FlutterActivity
 

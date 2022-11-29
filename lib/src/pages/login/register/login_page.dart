@@ -27,7 +27,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
- 
+
   final _emailFieldKey = GlobalKey<FormBuilderFieldState>();
   ValueNotifier<bool> isLoginSuccess = ValueNotifier<bool>(false);
 
@@ -162,7 +162,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
- 
   }
 
   validdateLoginForm() async {
@@ -173,14 +172,14 @@ class _LoginPageState extends State<LoginPage> {
         "password": password,
       };
 
-      Provider.of<EmailAuthentication>(context, listen: false).isLogin(
-        cred: loginData,
+      Provider.of<EmailAuthentication>(context, listen: false).signIn(
+        credential: loginData,
         isSuccess: isLoginSuccess,
         formKey: _formKey,
+        context: context,
       );
     }
   }
-
 }
 
 extension VerifyString on String {

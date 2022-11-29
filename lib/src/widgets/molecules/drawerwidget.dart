@@ -20,15 +20,8 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final ScrollController x = ScrollController();
   Map<String, dynamic> userdetails = {};
-  List<String> pages = [
-    "Manage Menu",
-    "Manage Staff",
-    "View Orders",
-    "Log Out"
-  ];
+  List<String> pages = ["View Orders", "Log Out"];
   List<IconData> icons = [
-    Icons.category,
-    Icons.person,
     Icons.delivery_dining,
     Icons.logout,
   ];
@@ -74,14 +67,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Role: ",
+                    "Email: ",
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    widget.userinfo["role"] ?? "",
+                    widget.userinfo["email"] ?? "",
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.red,
@@ -92,33 +85,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ],
           ),
         ),
-        if (widget.userinfo["role"] == "Admin")
-          ...List.generate(
-            pages.length,
-            (index) => DrawerList(
-              iconData: icons[index],
-              text: pages[index],
-              tap: () async {
-                if (index == 0) {
-                  Navigator.pushNamed(context, RouteName.categoryHome);
+        ...List.generate(
+          pages.length,
+          (index) => DrawerList(
+            iconData: icons[index],
+            text: pages[index],
+            tap: () async {
+              if (index == 0) {
+                Navigator.pushNamed(context, RouteName.categoryHome);
+              }
+
+              if (index == 1) {
+                bool isLogout = await Provider.of<EmailAuthentication>(context,
+                        listen: false)
+                    .signOut();
+                if (isLogout) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushNamedAndRemoveUntil(context, RouteName.mainPage,
+                      (Route<dynamic> route) => false);
                 }
-                if (index == 1) {
-                  Navigator.pushNamed(context, RouteName.managestaff);
-                }
-                if (index == 3) {
-                  bool isLogout = await Provider.of<EmailAuthentication>(
-                          context,
-                          listen: false)
-                      .signOut();
-                  if (isLogout) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushNamedAndRemoveUntil(context,
-                        RouteName.mainPage, (Route<dynamic> route) => false);
-                  }
-                }
-              },
-            ),
+              }
+            },
           ),
+        ),
       ],
     );
   }

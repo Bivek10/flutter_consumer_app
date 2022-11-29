@@ -11,6 +11,10 @@ abstract class PermissionService {
   Future requestCameraPermission();
 
   Future<bool> handleCameraPermission(BuildContext context);
+
+  Future requestLocationPermission();
+
+  Future<bool> handleLocationPermission(BuildContext context);
 }
 
 class PermissionHandlerPermissionService implements PermissionService {
@@ -29,9 +33,6 @@ class PermissionHandlerPermissionService implements PermissionService {
     PermissionStatus cameraPermissionStatus = await requestCameraPermission();
 
     if (cameraPermissionStatus != PermissionStatus.granted) {
-      print(
-          '😰 😰 😰 😰 😰 😰 Permission to camera was not granted! 😰 😰 😰 😰 😰 😰');
-
       await showDialog(
         context: context,
         builder: (context) => AppAlertDialog(
@@ -51,8 +52,6 @@ class PermissionHandlerPermissionService implements PermissionService {
     PermissionStatus photosPermissionStatus = await requestPhotosPermission();
 
     if (photosPermissionStatus != PermissionStatus.granted) {
-      print(
-          '😰 😰 😰 😰 😰 😰 Permission to photos not granted! 😰 😰 😰 😰 😰 😰');
       await showDialog(
         context: context,
         builder: (context) => AppAlertDialog(
@@ -65,5 +64,29 @@ class PermissionHandlerPermissionService implements PermissionService {
       return false;
     }
     return true;
+  }
+
+  @override
+  Future<bool> handleLocationPermission(BuildContext context) async {
+    PermissionStatus photosPermissionStatus = await requestLocationPermission();
+
+    if (photosPermissionStatus != PermissionStatus.granted) {
+      await showDialog(
+        context: context,
+        builder: (context) => AppAlertDialog(
+          onYes: () => openAppSettings(),
+          title: 'Location Permission',
+          content:
+              'Location permission should Be granted to use this feature, would you like to go to app settings to give photos permission?',
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  Future requestLocationPermission() async {
+    return await Permission.location.request();
   }
 }

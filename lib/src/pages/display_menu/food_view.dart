@@ -4,20 +4,25 @@ import 'package:flutter_skeleton/src/widgets/atoms/button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../config/api/manage_food_api.dart';
+import '../../config/api/manage_table_api.dart';
 import '../../config/api/table_order_api.dart';
+import '../../config/api/user_info_api.dart';
 import '../../core/utils/dimensions.dart';
 import '../../core/utils/snack_bar.dart';
+import '../../injector.dart';
+import '../../widgets/atoms/filter_botton.dart';
 import '../../widgets/atoms/loader.dart';
+import '../../widgets/molecules/drawerwidget.dart';
 import '../check_out/check_out_page.dart';
-import '../waiter_page/roms_table.dart';
 import 'category_button.dart';
 import 'product_menu_list.dart';
 
 class FoodMenu extends StatefulWidget {
   static const pageUrl = "/foodmenu";
-  final TableModel tableModel;
 
-  const FoodMenu({Key? key, required this.tableModel}) : super(key: key);
+  const FoodMenu({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<FoodMenu> createState() => _FoodMenuState();
@@ -33,34 +38,28 @@ class _FoodMenuState extends State<FoodMenu> {
   late Future<List<Map<String, dynamic>>> productdata;
   List<Map<String, dynamic>> product = [];
   List<Map<String, dynamic>> cartlist = [];
+  late Map<String, dynamic> userdata;
+  late ManageTableApi manageTableApi;
+  String? userid;
 
   @override
   void initState() {
     super.initState();
+    manageTableApi = ManageTableApi();
+    UserInfoAPI userInfoAPI = UserInfoAPI();
+    userdata = userInfoAPI.getUserInfo();
+    userid = sharedPreferences.getString("uid");
+
     getCategoires();
     //getData();
   }
 
-  getCategoires() async {
-    categorydata = manageFoodApi.getCategoryFuture();
-    category = await categorydata;
-    if (category.isNotEmpty) {
-      isActive.add(category[0]["categoryid"]);
-      getProducts(category[0]["uid"]);
-    }
-  }
-
-  getProducts(String categoryID) async {
-    productdata = manageFoodApi.getCategoryByMenu(categoryID);
-    product = await productdata;
-    if (product.isNotEmpty) {
-      setState(() {});
-    }
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey.shade200,
       body: FutureBuilder(
           future: categorydata,
@@ -74,14 +73,16 @@ class _FoodMenuState extends State<FoodMenu> {
                     pinned: true,
                     snap: false,
                     centerTitle: false,
-                    leading: IconButton(
-                      icon: const Icon(
-                        Icons.chevron_left,
-                        size: 30,
+                    leading: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 4.0,
+                        bottom: 4.0,
+                        top: 4.0,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      child: FilterButton(onPressed: () {
+                        _scaffoldKey.currentState!.openDrawer();
+                      }),
                     ),
                     title: Text(
                       "Food Menu",
@@ -95,7 +96,7 @@ class _FoodMenuState extends State<FoodMenu> {
                             icon: const Icon(
                               Icons.shopping_cart,
                               color: Colors.white,
-                              size: 30,
+                              size: 25,
                             ),
                             onPressed: () {},
                           ),
@@ -103,8 +104,7 @@ class _FoodMenuState extends State<FoodMenu> {
                             top: 4,
                             right: 10,
                             child: StreamBuilder<QuerySnapshot>(
-                                stream: tableOrderApi.getcartByTableid(
-                                    tableid: widget.tableModel.tableid),
+                                stream: tableOrderApi.getcartByUserid(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     cartlist.clear();
@@ -118,9 +118,8 @@ class _FoodMenuState extends State<FoodMenu> {
                                         })
                                         .toList()
                                         .where((element) {
-                                          return element["tableuid"] ==
-                                              widget.tableModel.uid && element["isorder"]==true;
-                                        
+                                          return element["userid"] == userid &&
+                                              element["isorder"] == true;
                                         })
                                         .toList();
                                     cartlist = data;
@@ -205,7 +204,6 @@ class _FoodMenuState extends State<FoodMenu> {
                             return ProductMenuList(
                               isCheckout: false,
                               data: product,
-                              tableuid: widget.tableModel.uid,
                             );
                           }
                           return const Center(
@@ -241,11 +239,11 @@ class _FoodMenuState extends State<FoodMenu> {
                       showError(message: "Cart is empty");
                     } else {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => CheckOutPage(
-                                    tableid: widget.tableModel.uid,
-                                  ))));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CheckOutPage(),
+                        ),
+                      );
                     }
                   },
 
@@ -262,7 +260,28 @@ class _FoodMenuState extends State<FoodMenu> {
           ],
         ),
       ),
-   
+      drawer: Drawer(
+        child: DrawerWidget(
+          userinfo: userdata,
+        ),
+      ),
     );
+  }
+
+  getCategoires() async {
+    categorydata = manageFoodApi.getCategoryFuture();
+    category = await categorydata;
+    if (category.isNotEmpty) {
+      isActive.add(category[0]["categoryid"]);
+      getProducts(category[0]["uid"]);
+    }
+  }
+
+  getProducts(String categoryID) async {
+    productdata = manageFoodApi.getCategoryByMenu(categoryID);
+    product = await productdata;
+    if (product.isNotEmpty) {
+      setState(() {});
+    }
   }
 }

@@ -57,10 +57,8 @@ class AppRouter {
       case RouteName.categoryHome:
         return _materialRoute(const CategoryHome());
       case RouteName.foodmenu:
-        TableModel tableModel = settings.arguments as TableModel;
-        return _materialRoute(FoodMenu(
-          tableModel: tableModel,
-        ));
+        // TableModel tableModel = settings.arguments as TableModel;
+        return _materialRoute(const FoodMenu());
       // case RouteName.foodform:
       //   String categoryID = settings.arguments as String;
       //   return _materialRoute(AddFoodMenu(

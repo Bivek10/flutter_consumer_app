@@ -26,12 +26,9 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: bgColor,
       leading: showMenu
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FilterButton(onPressed: () {
-                onPressedLeading();
-              }),
-            )
+          ? FilterButton(onPressed: () {
+            onPressedLeading();
+          })
           : IconButton(
               onPressed: () {
                 Navigator.pop(context);

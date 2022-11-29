@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../injector.dart';
 import '../providers/email_auth_provider.dart';
+import 'display_menu/food_view.dart';
 import 'waiter_page/home_page.dart';
 import 'login/register/login_page.dart';
 
@@ -15,21 +16,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late String uid;
+  late String? uid;
   @override
   void initState() {
-    uid = sharedPreferences.getString("uid")!;
+    uid = sharedPreferences.getString("uid");
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return uid.isNotEmpty
-        ? const HomePage()
+    return uid != null
+        ? const FoodMenu()
         : Consumer<EmailAuthentication>(builder: (context, value, child) {
             return value.authenticationState == AuthState.loaded
-                ? const HomePage()
+                ? const FoodMenu()
                 : const LoginPage();
           });
   }

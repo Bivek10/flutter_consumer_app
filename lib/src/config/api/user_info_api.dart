@@ -14,7 +14,7 @@ class UserInfoAPI with ConnectivityMixin {
       } else {
         String uid = sharedPreferences.getString('uid')!;
         firebaseFirestore
-            .collection(AppSecrets.staffcollection)
+            .collection(AppSecrets.consumerinfo)
             .doc(uid)
             .get()
             .then((value) {
@@ -32,7 +32,7 @@ class UserInfoAPI with ConnectivityMixin {
   Map<String, dynamic> getUserInfo() {
     Map<String, dynamic> userinfo = {
       "usernmae": sharedPreferences.getString("name"),
-      "role": sharedPreferences.getString("role")
+      "email":sharedPreferences.getString("email")
     };
     return userinfo;
   }
@@ -40,5 +40,5 @@ class UserInfoAPI with ConnectivityMixin {
 
 class UserCached {
   static Map<String, dynamic> userdata = {};
-  static String userrole="";
+  static String userrole = "";
 }

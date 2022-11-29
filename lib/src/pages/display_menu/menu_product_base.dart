@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../config/api/table_order_api.dart';
+import '../../injector.dart';
 import '../../widgets/atoms/button.dart';
-import '../../widgets/atoms/menu_button.dart';
+
 import 'edit_cart_button.dart';
 
 class ProductListTile extends StatelessWidget {
   Map<String, dynamic> menuitem;
-  final String tableid;
+
   final bool isCheckout;
-  ProductListTile(
-      {Key? key,
-      required this.menuitem,
-      required this.tableid,
-      required this.isCheckout})
+  ProductListTile({Key? key, required this.menuitem, required this.isCheckout})
       : super(key: key);
 
   ValueNotifier<List<String>> isAdded = ValueNotifier([]);
@@ -159,7 +156,6 @@ class ProductListTile extends StatelessWidget {
                                     size: ButtonSize.small,
                                     onPressed: () {
                                       Map<String, dynamic> data = {
-                                        "tableuid": tableid,
                                         "productuid": menuitem["uid"],
                                         "price": menuitem["price"],
                                         "foodname": menuitem["foodname"],
@@ -195,7 +191,7 @@ class ProductListTile extends StatelessWidget {
                                       tableOrderApi.incrementQuantity(
                                           data: menuitem,
                                           productname: menuitem["foodname"],
-                                          fooduid: menuitem["fooduid"]);
+                                          cartuid: menuitem["cartuid"]);
                                     },
                                     onDecrement: () {
                                       TableOrderApi tableOrderApi =
@@ -203,7 +199,7 @@ class ProductListTile extends StatelessWidget {
                                       tableOrderApi.decrementQuantity(
                                           data: menuitem,
                                           productname: menuitem["foodname"],
-                                          fooduid: menuitem["fooduid"]);
+                                          cartuid: menuitem["cartuid"]);
                                     },
                                   );
                                 },
@@ -223,11 +219,14 @@ class ProductListTile extends StatelessWidget {
   addToFoodCart(Map<String, dynamic> data) {
     isAdded.value.clear();
     isAdded.value.add(data["productuid"]);
-    // print(isAdded.value.contains(menuitem["uid"]));
-    //print(data);
-    TableOrderApi tableOrderApi = TableOrderApi();
-    //tableOrderApi.getcartByTableid(tableid: tableid);
-    tableOrderApi.addToCart(data: data, productname: menuitem["foodname"]);
-
+    String? userid = sharedPreferences.getString("uid");
+    if (userid != null) {
+      data.addAll({"userid": userid});
+      TableOrderApi tableOrderApi = TableOrderApi();
+      tableOrderApi.addToCart(
+        data: data,
+        productname: menuitem["foodname"],
+      );
+    }
   }
 }

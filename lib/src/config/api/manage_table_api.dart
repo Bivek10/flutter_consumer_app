@@ -88,21 +88,21 @@ class ManageTableApi with ConnectivityMixin {
     });
   }
 
-  updateTableStatus(
-      {required String totalbill,
-      required String tableUid,
-      required BuildContext context}) async {
-    await firebaseFirestore
-        .collection(AppSecrets.tablecollection)
-        .doc(tableUid)
-        .update({"isRunning": true, "totalbill": totalbill}).then((value) {
-      showSuccess(message: "Order has placed");
-      Navigator.pushNamedAndRemoveUntil(
-          context, RouteName.mainPage, (route) => false);
-    }).onError((error, stackTrace) {
-      showError(message: error.toString());
-    });
-  }
+  // updateTableStatus(
+  //     {required String totalbill,
+  //     required String userid,
+  //     required BuildContext context}) async {
+  //   await firebaseFirestore
+  //       .collection(AppSecrets.tablecollection)
+  //       .doc(tableUid)
+  //       .update({"isRunning": true, "totalbill": totalbill}).then((value) {
+  //     showSuccess(message: "Order has placed");
+      // Navigator.pushNamedAndRemoveUntil(
+      //     context, RouteName.mainPage, (route) => false);
+  //   }).onError((error, stackTrace) {
+  //     showError(message: error.toString());
+  //   });
+  // }
 
   onCompleteOrder(
       {required tableuid,

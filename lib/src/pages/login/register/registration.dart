@@ -33,11 +33,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String? phone = "";
   String? password = "";
   String? confrimpassword = "";
-  String? role = "";
-  List<String> roleOptions = [
-    'Admin',
-    'Waiter',
-  ];
 
   @override
   void initState() {
@@ -124,36 +119,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               const SizedBox(
                 height: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                ),
-                child: InputField(
-                  label: "Select Position",
-                  child: DropDown(
-                    name: "role",
-                    hintText: "Select Position",
-                    items: roleOptions
-                        .map(
-                          (e) => DropdownMenuItem(
-                            alignment: AlignmentDirectional.center,
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      role = value.toString();
-                    },
-                    validator: FormBuilderValidators.compose(
-                      [
-                        FormBuilderValidators.required(),
-                      ],
-                    ),
-                  ),
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
@@ -284,14 +249,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
         "username": username,
         "phone": phone,
         "password": confrimpassword,
-        "role": role,
-        "isVerify": false,
       };
-      EmailAuthentication emailAuthentication = EmailAuthentication();
-      emailAuthentication.isRegister(
-        cred: cred,
+
+      Provider.of<EmailAuthentication>(context, listen: false).signUp(
+        credential: cred,
         isSuccess: isSuccess,
         formKey: _formKey,
+        context: context
       );
     }
   }
