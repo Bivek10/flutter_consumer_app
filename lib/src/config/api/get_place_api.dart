@@ -14,10 +14,10 @@ class GetPlaceBySearch extends BasePlacesRepository {
 
     var response = await dio.get(url);
 
-    var json = convert.jsonDecode(response.data);
-
+    var json = response.data;
+    print(json);
     var results = json['predictions'] as List;
-
+    print(results);
     return results.map((place) => PlaceAutocomplete.fromJson(place)).toList();
   }
 
@@ -25,7 +25,7 @@ class GetPlaceBySearch extends BasePlacesRepository {
   Future<Place> getPlace(String placeId) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${AppSecrets.mapkey}';
-
+      
     var response = await dio.get(url);
     var json = convert.jsonDecode(response.data);
     var results = json['result'] as Map<String, dynamic>;

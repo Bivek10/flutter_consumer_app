@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/themes/colors.dart';
+import 'location_provider/location_pick_prov.dart';
 
 class LocationSearchBox extends StatelessWidget {
   final pink = const Color(0xFFFACCCC);
@@ -52,7 +54,10 @@ class LocationSearchBox extends StatelessWidget {
             color: Colors.blue.shade200,
           ),
         ),
-        onChanged: (value) {},
+        onChanged: (value) {
+          // Provider.of<LocationPickerProvider>(context, listen: false)
+          //     .getSearchPlaceData(searchInput: value);
+        },
       ),
     );
   }

@@ -6,21 +6,10 @@ import '../delivery_location_picker.dart';
 
 class UserLocationPicker extends LocationPickerImpl {
   @override
-  void checkLocationPermission({required BuildContext context}) async {
-    permissionHandler.handleLocationPermission(context).then((isGranted) {
-      if (isGranted) {
-        getCurrentLocation().then((value) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: ((context) => const DeliveryLocationPicker())));
-        });
-      } else {
-        showError(message: "Location permission not granted");
-      }
-    }).onError((error, stackTrace) {
-      showError(message: error.toString());
-    });
+  Future<bool> checkLocationPermission({required BuildContext context}) async {
+    bool isLocationEnable =
+        await permissionHandler.handleLocationPermission(context);
+    return isLocationEnable;
   }
 
   @override
