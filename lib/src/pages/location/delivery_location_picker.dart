@@ -63,6 +63,7 @@ class _DeliveryLocationPickerState extends State<DeliveryLocationPicker> {
                       zoom: 15,
                     ),
                     onTap: (LatLng) {
+                      print(LatLng);
                       markers.clear();
                       Provider.of<LocationPickerProvider>(context,
                               listen: false)

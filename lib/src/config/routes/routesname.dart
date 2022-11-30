@@ -1,3 +1,5 @@
+import 'package:flutter_skeleton/src/pages/view_order/view_order_page.dart';
+
 import '../../pages/categories/add_categories_form.dart';
 import '../../pages/categories/add_food_form.dart';
 import '../../pages/categories/manage_category_home.dart';
@@ -24,4 +26,5 @@ class RouteName {
   static const categoryHome = CategoryHome.pageUrl;
   static const foodform = AddFoodMenu.pageUrl;
   static const foodmenu = FoodMenu.pageUrl;
+  static const orderpage = ViewOrder.pageUrl;
 }

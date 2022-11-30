@@ -92,7 +92,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             text: pages[index],
             tap: () async {
               if (index == 0) {
-                Navigator.pushNamed(context, RouteName.categoryHome);
+                Navigator.pushNamed(context, RouteName.orderpage);
               }
 
               if (index == 1) {

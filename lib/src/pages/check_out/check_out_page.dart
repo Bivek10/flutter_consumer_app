@@ -137,6 +137,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   size: ButtonSize.small,
                   trailingIcon: const Icon(Icons.chevron_right),
                   onPressed: () {
+                    DateTime currentTime = DateTime.now();
                     num totalbill = 0;
 
                     for (var ele in filterdata) {
@@ -147,6 +148,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       "orderData": filterdata,
                       "totalamount": totalbill,
                       "orderStatus": "pending",
+                      "datetime": currentTime.toString(),
                       "delivery_location": {},
                     };
                     onCheckOut(context, data);
