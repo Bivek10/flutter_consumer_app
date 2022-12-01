@@ -7,6 +7,7 @@ import '../../config/api/manage_table_api.dart';
 import '../../config/api/table_order_api.dart';
 import '../../injector.dart';
 import '../display_menu/product_menu_list.dart';
+import '../location/delivery_location_picker.dart';
 import '../location/location_function/location_picker_function.dart';
 
 class CheckOutPage extends StatefulWidget {
@@ -53,7 +54,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   .toList();
 
               filterdata.addAll(data);
-              print(filterdata);
 
               return CustomScrollView(
                 slivers: [
@@ -137,23 +137,22 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   size: ButtonSize.small,
                   trailingIcon: const Icon(Icons.chevron_right),
                   onPressed: () {
-                    onCheckOut(context);
-                    // num totalbill = 0;
+                    DateTime currentTime = DateTime.now();
+                    num totalbill = 0;
 
-                    // for (var ele in filterdata) {
-                    //   totalbill += int.parse(ele["subtotal"].toString());
-                    // }
-                    // Map<String, dynamic> data = {
-                    //   "userid": userid,
-                    //   "orderData": filterdata,
-                    //   "totalamount": totalbill,
-                    //   "orderStatus": "pending",
-                    //   "delivery_location": "",
-                    // };
-
-                    // TableOrderApi tableOrderApi = TableOrderApi();
-                    // tableOrderApi.updateOrderStatus(
-                    //     data: data, context: context);
+                    for (var ele in filterdata) {
+                      totalbill += int.parse(ele["subtotal"].toString());
+                    }
+                    Map<String, dynamic> data = {
+                      "userid": userid,
+                      "orderData": filterdata,
+                      "totalamount": totalbill,
+                      "orderStatus": "pending",
+                      "datetime": currentTime.toString(),
+                      "delivery_location": {},
+                      "rider_location": {},
+                    };
+                    onCheckOut(context, data);
                   },
 
                   child: const Text(
@@ -172,8 +171,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
     );
   }
 
-  onCheckOut(BuildContext context) {
+  onCheckOut(BuildContext context, Map<String, dynamic> data) async {
     UserLocationPicker userLocationPicker = UserLocationPicker();
-    userLocationPicker.checkLocationPermission(context: context);
+    userLocationPicker.checkLocationPermission(context: context).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: ((context) => DeliveryLocationPicker(data: data)),
+        ),
+      );
+    });
   }
 }

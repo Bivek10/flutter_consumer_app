@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.GALLERY"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
     <application
         android:label="flutter_consumer"
         android:name="${applicationName}"
@@ -14,7 +15,7 @@
         android:icon="@mipmap/ic_launcher">
         <!-- Add your api key here -->
                 <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyC5Ku3swhPv2eKnkYyh-MoneJf_hLioC9g"/>
+               android:value="AIzaSyC5Ku3swhPv2eKnkYyh-MoneJf_hLioC"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

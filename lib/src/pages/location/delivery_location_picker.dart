@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton/src/config/api/table_order_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../widgets/atoms/loader.dart';
+import 'location_provider/location_pick_prov.dart';
 import 'location_search_box.dart';
 
 class DeliveryLocationPicker extends StatefulWidget {
-  const DeliveryLocationPicker({Key? key}) : super(key: key);
+  final Map<String, dynamic> data;
+  const DeliveryLocationPicker({Key? key, required this.data})
+      : super(key: key);
 
   @override
   State<DeliveryLocationPicker> createState() => _DeliveryLocationPickerState();
@@ -13,7 +19,8 @@ class DeliveryLocationPicker extends StatefulWidget {
 class _DeliveryLocationPickerState extends State<DeliveryLocationPicker> {
   Set<Marker> markers = {};
   TextEditingController searchTxtCtrl = TextEditingController();
-  late LatLng startLocation;
+  LatLng? startLocation;
+
   @override
   void initState() {
     super.initState();
@@ -21,113 +28,126 @@ class _DeliveryLocationPickerState extends State<DeliveryLocationPicker> {
   }
 
   setInitData() {
-    startLocation = LatLng(
-      double.parse("27.7056666"),
-      double.parse("85.328234"),
-    );
-
-    markers.add(
-      Marker(
-        //add start location marker
-        markerId: MarkerId(startLocation.toString()),
-        position: startLocation,
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          BitmapDescriptor.hueRed,
-        ),
-      ),
-    );
+    Provider.of<LocationPickerProvider>(context, listen: false)
+        .getCurrentLocation();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: LocationAppBar(context, searchTxtCtrl),
-        body: Stack(
-          children: [
-            GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                buildingsEnabled: false,
-                onMapCreated: (GoogleMapController controller) {
-                  // locationBloc!.add(
-                  //   LoadMap(controller: controller),
-                  // );
-                },
-                markers: markers,
-                initialCameraPosition: CameraPosition(
-                  target: startLocation,
-                  zoom: 15,
+      appBar: LocationAppBar(context, searchTxtCtrl),
+      body: Consumer<LocationPickerProvider>(
+        builder: (context, value, child) {
+          if (value.getLatlagn != null) {
+            markers.add(
+              Marker(
+                //add start location marker
+                markerId: MarkerId(value.getLatlagn.toString()),
+                position: value.getLatlagn!,
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueRed,
                 ),
-                onTap: (LatLng) {
-                  print(LatLng);
-                  // locationBloc!.add(
-                  //   LoadMap(latLng: LatLng),
-                }),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
               ),
-              child: Column(
-                children: [
-                  _SearchBoxSuggestions(
-                    searchCtrl: searchTxtCtrl,
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 80,
+            );
+
+            return Stack(
+              children: [
+                GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    buildingsEnabled: false,
+                    onMapCreated: (GoogleMapController controller) {},
+                    markers: markers,
+                    initialCameraPosition: CameraPosition(
+                      target: value.getLatlagn!,
+                      zoom: 15,
                     ),
-                    child: InkWell(
-                      onTap: () {
-                        Map locDetail = {
-                          // "lat": state.place.lat,
-                          // "lag": state.place.lag,
-                          // "placename": state.place.name
-                        };
-                      },
-                      child: Material(
-                        shadowColor: Colors.grey,
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(50),
-                        child: Container(
-                          decoration: BoxDecoration(
+                    onTap: (LatLng) {
+                      print(LatLng);
+                      markers.clear();
+                      Provider.of<LocationPickerProvider>(context,
+                              listen: false)
+                          .getOnTapLocation(LatLng);
+                    }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      _SearchBoxSuggestions(
+                        searchCtrl: searchTxtCtrl,
+                        value: value,
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 80,
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            widget.data["delivery_location"] = {
+                              "lat": value.getLatlagn!.latitude,
+                              "long": value.getLatlagn!.longitude
+                            };
+                            value.getLatlagn.toString();
+                            TableOrderApi tableOrderApi = TableOrderApi();
+                            tableOrderApi.updateOrderStatus(
+                                data: widget.data, context: context);
+                            // print(widget.data);
+                          },
+                          child: Material(
+                            shadowColor: Colors.grey,
+                            elevation: 5,
                             borderRadius: BorderRadius.circular(50),
-                            color: Colors.orange,
-                          ),
-                          child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(14.0),
-                              child: Text(
-                                "Set Location",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FontStyle.normal,
-                                  color: Colors.white,
-                                  height: 1,
-                                  letterSpacing: 0.2,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.orange,
+                              ),
+                              child: const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(14.0),
+                                  child: Text(
+                                    "Set Location & Order",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.white,
+                                      height: 1,
+                                      letterSpacing: 0.2,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ));
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+          return const Center(
+            child: Loader(),
+          );
+        },
+      ),
+    );
   }
 }
 
 class _SearchBoxSuggestions extends StatelessWidget {
   final TextEditingController searchCtrl;
+  final LocationPickerProvider value;
   const _SearchBoxSuggestions({
     Key? key,
     required this.searchCtrl,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -135,8 +155,9 @@ class _SearchBoxSuggestions extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      itemCount: 0,
+      itemCount: value.getPlaceAutocomplete.length,
       itemBuilder: (context, index) {
+        String description = value.getPlaceAutocomplete[index].description;
         return InkWell(
           onTap: () {
             // locationBloc.add(
@@ -157,11 +178,11 @@ class _SearchBoxSuggestions extends StatelessWidget {
           },
           child: Container(
             color: Colors.blue.shade200,
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Text(
-                "Hello world",
-                style: TextStyle(
+                description,
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   fontStyle: FontStyle.normal,

@@ -8,6 +8,7 @@ import '../../pages/display_menu/food_view.dart';
 import '../../pages/login/register/registration.dart';
 import '../../pages/manage_staff/staff_setting.dart';
 import '../../pages/manage_table/add_table.dart';
+import '../../pages/view_order/view_order_page.dart';
 import '../../pages/waiter_page/home_page.dart';
 import '../../pages/login/register/login_page.dart';
 import '../../pages/main_page.dart';
@@ -59,6 +60,8 @@ class AppRouter {
       case RouteName.foodmenu:
         // TableModel tableModel = settings.arguments as TableModel;
         return _materialRoute(const FoodMenu());
+      case RouteName.orderpage:
+        return _materialRoute(const ViewOrder());
       // case RouteName.foodform:
       //   String categoryID = settings.arguments as String;
       //   return _materialRoute(AddFoodMenu(

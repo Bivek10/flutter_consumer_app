@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton/src/pages/location/location_provider/location_pick_prov.dart';
 import 'package:flutter_skeleton/src/providers/image_file_provider.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,9 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ImageFileReciver(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LocationPickerProvider(),
         )
       ],
       builder: (context, child) {
