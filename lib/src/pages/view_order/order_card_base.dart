@@ -42,7 +42,7 @@ class OrderBaseCard extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      if (orderdata["orderstatus"] == "ending") {
+                      if (orderdata["orderstatus"] == "pending") {
                         showError(
                             message:
                                 "Order is not processed. Please be patience");
@@ -50,8 +50,10 @@ class OrderBaseCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const OrderTrackingMap(loc: {}),
+                            builder: (context) => OrderTrackingMap(
+                              homeloc: orderdata["location"],
+                              riderlocation: orderdata["rider_location"],
+                            ),
                           ),
                         );
                       }

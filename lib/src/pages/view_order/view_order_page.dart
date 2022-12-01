@@ -62,7 +62,8 @@ class _ViewOrderState extends State<ViewOrder> {
                     "totalamount": d["totalamount"],
                     "orderstatus": d["orderStatus"],
                     "items": d["orderData"].length.toString(),
-                    "location": d["delivery_location"]
+                    "location": d["delivery_location"],
+                    "rider_location":d["rider_location"],
                   };
                   return OrderBaseCard(orderdata: data);
                 });

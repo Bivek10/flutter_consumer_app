@@ -150,6 +150,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       "orderStatus": "pending",
                       "datetime": currentTime.toString(),
                       "delivery_location": {},
+                      "rider_location": {},
                     };
                     onCheckOut(context, data);
                   },

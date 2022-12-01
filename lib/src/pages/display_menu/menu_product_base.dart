@@ -24,7 +24,7 @@ class ProductListTile extends StatelessWidget {
         children: [
           Container(
             height: 120,
-            width: 100,
+            width: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
@@ -35,7 +35,7 @@ class ProductListTile extends StatelessWidget {
                 placeholder: 'assets/images/logo.png',
                 image: menuitem["imageurl"] ??
                     "https://cdn-icons-png.flaticon.com/512/242/242452.png",
-                fit: BoxFit.contain,
+                fit: BoxFit.fill,
               ),
             ),
           ),
